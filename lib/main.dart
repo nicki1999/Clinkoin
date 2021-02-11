@@ -1,4 +1,6 @@
 import 'package:clinkoin/screens/forcast_bitcoin.dart';
+import 'package:clinkoin/screens/wallet.dart';
+import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
       home: ForcastBitcoin(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
+        WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
+        Wallet.routeName: (ctx) => Wallet(),
       },
     );
   }
