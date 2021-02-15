@@ -1,12 +1,20 @@
+import 'package:clinkoin/main.dart';
+import 'package:clinkoin/screens/first_view_user_tutorial.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Wallet extends StatelessWidget {
-  Function _changeScreen() {}
   static final routeName = '/Wallet';
   @override
   Widget build(BuildContext context) {
+    void _changeScreen(BuildContext context) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        FirstViewUserTutorial.routeName,
+        ModalRoute.withName(FirstViewUserTutorial.routeName),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 245, 253, 1),
       body: Column(
@@ -32,9 +40,7 @@ class Wallet extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                margin: EdgeInsets.only(
-                  top: 64,
-                ),
+                margin: EdgeInsets.only(top: 64, right: 40),
                 padding: EdgeInsets.symmetric(horizontal: 32),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

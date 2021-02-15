@@ -1,3 +1,4 @@
+import 'package:clinkoin/screens/first_view_user_tutorial.dart';
 import 'package:clinkoin/screens/forcast_bitcoin.dart';
 import 'package:clinkoin/screens/wallet.dart';
 import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
     );
   }
 
+  static final twentyOne = 21.0;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class MyApp extends StatelessWidget {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
         Wallet.routeName: (ctx) => Wallet(),
+        FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
       },
     );
   }
