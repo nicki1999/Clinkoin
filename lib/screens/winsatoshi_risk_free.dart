@@ -52,12 +52,12 @@ class WinsatoshiRiskFree extends StatelessWidget {
                       child: Image.asset('assets/images/bitcoin.png'),
                     ),
                     Text(
-                      'Forcast Bitcoin',
+                      'Win Bitcoin',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
                     ),
                     Text(
-                      'Make Bitcoin forcasts and gain insights into crypto markets.',
+                      'Eearn Bitcoin with true predicts.You can earn more by play more.',
                       textAlign: TextAlign.center,
                     ),
                     Row(

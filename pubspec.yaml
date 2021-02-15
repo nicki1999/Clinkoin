@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.3.3
+  draw_graph: ^0.0.2
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -51,6 +53,7 @@ flutter:
   assets:
     - assets/images/chart.png
     - assets/images/bitcoin.png
+    - assets/images/bitcoin-small.png
     - assets/images/wallet.png
   #   - images/a_dot_ham.jpeg
 

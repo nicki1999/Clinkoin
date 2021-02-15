@@ -40,12 +40,12 @@ class ForcastBitcoin extends StatelessWidget {
                       child: Image.asset('assets/images/chart.png'),
                     ),
                     Text(
-                      'Win Bitcoin',
+                      'Forcast Bitcoin',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
                     ),
                     Text(
-                      'Eearn Bitcoin with true predicts.You can earn more by play more.',
+                      'Make Bitcoin forcasts and gain insight into crypto markets.',
                       textAlign: TextAlign.center,
                     ),
                     Row(
