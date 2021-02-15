@@ -1,3 +1,4 @@
+import 'package:clinkoin/main.dart';
 import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +9,7 @@ class ForcastBitcoin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _changeScreen(BuildContext context) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        WinsatoshiRiskFree.routeName,
-        ModalRoute.withName(WinsatoshiRiskFree.routeName),
-      );
+      Navigator.of(context).push(MyApp.createRoute(WinsatoshiRiskFree()));
     }
 
     return Scaffold(
