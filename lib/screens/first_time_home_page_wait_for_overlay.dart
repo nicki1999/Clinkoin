@@ -23,8 +23,81 @@ class _FirstTimeHomePageWaitForOverlayState
     });
   }
 
-  void _changeScreen() {
+  void _changeScreen(BuildContext context) {
     Navigator.of(context).pop();
+    _showModal();
+  }
+
+  Future _showModal() {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            height: 400,
+            color: Color(0xFF737373),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(25.0),
+                  topRight: const Radius.circular(25.0),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 16,
+                      right: 16,
+                      left: 16,
+                    ),
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Image.asset('assets/images/dialog-close.png')),
+                  ),
+                  Image.asset('assets/images/alien.png'),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    'Nice Work',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    'Let’s setup your acccount to continue!',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 17,
+                  ),
+                  Text('You’ll secure your rewards and earn real '),
+                  Text('money towards your first investment.'),
+                  Expanded(
+                      child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SharedLongButton(
+                      button: null,
+                      buttonText: 'Sign Up',
+                    ),
+                  )),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -51,6 +124,7 @@ class _FirstTimeHomePageWaitForOverlayState
                     child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
+                          _showModal();
                         },
                         child: Image.asset('assets/images/dialog-close.png')),
                   ),
