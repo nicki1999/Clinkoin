@@ -1,4 +1,5 @@
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,16 @@ class FirstViewUserTutorial extends StatefulWidget {
 }
 
 class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
+  List<bool> checkButton = [true, false, false, false];
+  void fCheckButton(int num) {
+    setState(() {
+      for (var i = 0; i < checkButton.length; i++) {
+        checkButton[i] = false;
+      }
+      checkButton[num] = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,56 +104,80 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                     width: MediaQuery.of(context).size.width * .05,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      fCheckButton(0);
+                    },
                     child: Text(
                       '1H',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(41, 114, 255, 1),
-                      primary: Colors.white,
+                      backgroundColor: checkButton[0]
+                          ? Color.fromRGBO(41, 114, 255, 1)
+                          : Color.fromRGBO(232, 237, 255, 1),
+                      primary: checkButton[0]
+                          ? Colors.white
+                          : Color.fromRGBO(150, 158, 179, 1),
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .05,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      fCheckButton(1);
+                    },
                     child: Text(
                       '1D',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(232, 237, 255, 1),
-                      primary: Color.fromRGBO(150, 158, 179, 1),
+                      backgroundColor: checkButton[1]
+                          ? Color.fromRGBO(41, 114, 255, 1)
+                          : Color.fromRGBO(232, 237, 255, 1),
+                      primary: checkButton[1]
+                          ? Colors.white
+                          : Color.fromRGBO(150, 158, 179, 1),
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .05,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      fCheckButton(2);
+                    },
                     child: Text(
                       '1W',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(232, 237, 255, 1),
-                      primary: Color.fromRGBO(150, 158, 179, 1),
+                      backgroundColor: checkButton[2]
+                          ? Color.fromRGBO(41, 114, 255, 1)
+                          : Color.fromRGBO(232, 237, 255, 1),
+                      primary: checkButton[2]
+                          ? Colors.white
+                          : Color.fromRGBO(150, 158, 179, 1),
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .05,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      fCheckButton(3);
+                    },
                     child: Text(
                       '1M',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: TextButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(232, 237, 255, 1),
-                      primary: Color.fromRGBO(150, 158, 179, 1),
+                      backgroundColor: checkButton[3]
+                          ? Color.fromRGBO(41, 114, 255, 1)
+                          : Color.fromRGBO(232, 237, 255, 1),
+                      primary: checkButton[3]
+                          ? Colors.white
+                          : Color.fromRGBO(150, 158, 179, 1),
                     ),
                   ),
                   SizedBox(
@@ -230,7 +265,10 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                       height: 40,
                       width: MediaQuery.of(context).size.width * .4,
                       child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                              FirstViewUserTutorialPredicted.routeName);
+                        },
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: Color.fromRGBO(32, 174, 138, 1),

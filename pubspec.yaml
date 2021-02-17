@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   provider: ^4.3.3
   draw_graph: ^0.0.2
+  countdown_flutter: ^0.1.1
+
 
 
 
@@ -58,6 +60,10 @@ flutter:
     - assets/images/blue-chart.png
     - assets/images/red-arrow-down.png
     - assets/images/green-arrow-up.png
+    - assets/images/green-tick.png
+    - assets/images/green-polygon.png
+    - assets/images/alien.png
+    - assets/images/dialog-close.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
