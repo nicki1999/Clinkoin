@@ -1,3 +1,4 @@
+import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:clinkoin/screens/first_view_user_tutorial.dart';
 import 'package:clinkoin/screens/forcast_bitcoin.dart';
 import 'package:clinkoin/screens/wallet.dart';
@@ -46,12 +47,14 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: ForcastBitcoin(),
+      home: FirstViewUserTutorialPredicted(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
         Wallet.routeName: (ctx) => Wallet(),
         FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
+        FirstViewUserTutorialPredicted.routeName: (ctx) =>
+            FirstViewUserTutorialPredicted(),
       },
     );
   }
