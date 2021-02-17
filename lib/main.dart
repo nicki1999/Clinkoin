@@ -1,3 +1,4 @@
+import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
 import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:clinkoin/screens/first_view_user_tutorial.dart';
 import 'package:clinkoin/screens/forcast_bitcoin.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
         Wallet.routeName: (ctx) => Wallet(),
+        FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>
+            FirstTimeHomePageWaitForOverlay(),
         FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
         FirstViewUserTutorialPredicted.routeName: (ctx) =>
             FirstViewUserTutorialPredicted(),
