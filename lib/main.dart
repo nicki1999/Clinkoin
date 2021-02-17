@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: FirstViewUserTutorialPredicted(),
+      home: FirstTimeHomePageWaitForOverlay(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),

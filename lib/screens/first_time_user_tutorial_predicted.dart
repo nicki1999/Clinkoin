@@ -18,7 +18,7 @@ class FirstViewUserTutorialPredicted extends StatefulWidget {
 class _FirstViewUserTutorialPredictedState
     extends State<FirstViewUserTutorialPredicted> {
   bool goingUp = false;
-  var seconds = 10;
+  var seconds = 4;
   var minutes = 0;
   var hours = 0;
   var duration;
