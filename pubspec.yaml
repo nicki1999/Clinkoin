@@ -56,6 +56,7 @@ flutter:
     - assets/images/chart.png
     - assets/images/bitcoin.png
     - assets/images/bitcoin-small.png
+    - assets/images/bitcoin-medium.png
     - assets/images/wallet.png
     - assets/images/blue-chart.png
     - assets/images/red-arrow-down.png
@@ -64,6 +65,9 @@ flutter:
     - assets/images/green-polygon.png
     - assets/images/alien.png
     - assets/images/dialog-close.png
+    - assets/images/question-icon.png
+    - assets/images/feedback.png
+    - assets/images/cup.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
