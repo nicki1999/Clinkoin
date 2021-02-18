@@ -2,6 +2,7 @@ import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
 import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:clinkoin/screens/first_view_user_tutorial.dart';
 import 'package:clinkoin/screens/forcast_bitcoin.dart';
+import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet.dart';
 import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
 import 'package:flutter/material.dart';
@@ -48,9 +49,10 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: FirstTimeHomePageWaitForOverlay(),
+      home: SignUp(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
+        SignUp.routeName: (ctx) => SignUp(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
         Wallet.routeName: (ctx) => Wallet(),
         FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>

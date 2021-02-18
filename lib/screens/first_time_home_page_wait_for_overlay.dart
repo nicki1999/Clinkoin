@@ -1,4 +1,5 @@
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,10 @@ class _FirstTimeHomePageWaitForOverlayState
   void _changeScreen(BuildContext context) {
     Navigator.of(context).pop();
     _showModal();
+  }
+
+  void _changeScreen2(BuildContext context) {
+    Navigator.of(context).pushNamed(SignUp.routeName);
   }
 
   Future _showModal() {
@@ -60,7 +65,7 @@ class _FirstTimeHomePageWaitForOverlayState
                         },
                         child: Image.asset('assets/images/dialog-close.png')),
                   ),
-                  Image.asset('assets/images/alien.png'),
+                  Image.asset('assets/images/alien-no-money.png'),
                   SizedBox(
                     height: 12,
                   ),
@@ -84,7 +89,7 @@ class _FirstTimeHomePageWaitForOverlayState
                       child: Align(
                     alignment: Alignment.bottomCenter,
                     child: SharedLongButton(
-                      button: null,
+                      button: _changeScreen2,
                       buttonText: 'Sign Up',
                     ),
                   )),
