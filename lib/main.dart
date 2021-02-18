@@ -1,3 +1,4 @@
+import 'package:clinkoin/screens/create_profile.dart';
 import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
 import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:clinkoin/screens/first_view_user_tutorial.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
   }
 
   static final twentyOne = 21.0;
-
+  static final eighteen = 18.0;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
       home: SignUp(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
+        CreateProfile.routeName: (ctx) => CreateProfile(),
         SignUp.routeName: (ctx) => SignUp(),
         WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
         Wallet.routeName: (ctx) => Wallet(),

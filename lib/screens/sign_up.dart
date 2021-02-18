@@ -1,3 +1,4 @@
+import 'package:clinkoin/screens/create_profile.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -96,7 +97,12 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         color: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            CreateProfile.routeName,
+                            ModalRoute.withName(CreateProfile.routeName),
+                          );
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
