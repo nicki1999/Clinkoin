@@ -68,6 +68,8 @@ flutter:
     - assets/images/question-icon.png
     - assets/images/feedback.png
     - assets/images/cup.png
+    - assets/images/google.png
+    - assets/images/alien-no-money.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
