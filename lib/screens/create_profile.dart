@@ -1,4 +1,6 @@
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
+import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,10 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
+  GlobalKey<FormState> _formKey = GlobalKey();
+  bool errorText = false;
   FocusNode _focusNode = FocusNode();
+  TextEditingController textController = TextEditingController();
   @override
   void initState() {
     _focusNode.addListener(() {
@@ -58,36 +63,47 @@ class _CreateProfileState extends State<CreateProfile> {
                   ),
                 ),
               ),
-              TextFormField(
-                autofocus: true,
-                focusNode: _focusNode,
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  labelStyle: TextStyle(
-                    color: Color.fromRGBO(41, 114, 255, 1),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.withAlpha(80),
-                      width: 0,
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        errorText = true;
+                      });
+                      return "Please enter your name";
+                    }
+                  },
+                  controller: textController,
+                  autofocus: true,
+                  focusNode: _focusNode,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10),
+                    errorStyle: TextStyle(fontSize: 15),
+                    labelText: 'Name',
+                    labelStyle: TextStyle(
+                      color: errorText
+                          ? Colors.red
+                          : Color.fromRGBO(41, 114, 255, 1),
                     ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.withAlpha(80),
+                        width: 0,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(41, 114, 255, 1), width: 2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(41, 114, 255, 1), width: 2),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8),
+                      ),
                     ),
                   ),
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                },
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 1,
@@ -98,7 +114,15 @@ class _CreateProfileState extends State<CreateProfile> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   color: Color.fromRGBO(41, 114, 255, 1),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!_formKey.currentState.validate()) {
+                      return;
+                    }
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      HomePage.routeName,
+                      ModalRoute.withName(HomePage.routeName),
+                    );
+                  },
                   child: Text(
                     'Done',
                     textAlign: TextAlign.center,
