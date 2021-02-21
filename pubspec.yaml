@@ -64,6 +64,7 @@ flutter:
     - assets/images/green-arrow-up.png
     - assets/images/green-tick.png
     - assets/images/green-polygon.png
+    - assets/images/red-polygon.png
     - assets/images/alien.png
     - assets/images/dialog-close.png
     - assets/images/question-icon.png
@@ -71,6 +72,10 @@ flutter:
     - assets/images/cup.png
     - assets/images/google.png
     - assets/images/alien-no-money.png
+    - assets/images/sad-alien.png
+    - assets/images/Headphone.png
+    - assets/images/email.png
+    - assets/images/twitter.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

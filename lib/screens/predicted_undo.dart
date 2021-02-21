@@ -7,6 +7,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 import '../main.dart';
 import 'first_time_home_page_wait_for_overlay.dart';
+import 'home_page.dart';
 
 class PredictedUndo extends StatefulWidget {
   static final routeName = '/PredictedUndo';
@@ -105,7 +106,11 @@ class _PredictedUndoState extends State<PredictedUndo> {
   Widget build(BuildContext context) {
     timer = CountdownFormatted(
       duration: duration,
-      onFinish: () {},
+      onFinish: () {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomePage.routeName, ModalRoute.withName(HomePage.routeName),
+            arguments: {'showModal': true});
+      },
       builder: (BuildContext ctx, String remaining) {
         return Text(
             '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})'); // 01:00:00

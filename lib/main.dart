@@ -1,4 +1,5 @@
 import 'package:clinkoin/screens/create_profile.dart';
+import 'package:clinkoin/screens/feedback.dart';
 import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
 import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
 import 'package:clinkoin/screens/first_view_user_tutorial.dart';
@@ -52,9 +53,10 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: HomePage(),
+      home: FeedBack(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
+        FeedBack.routeName: (ctx) => FeedBack(),
         PredictedUndo.routeName: (ctx) => PredictedUndo(),
         HomePage.routeName: (ctx) => HomePage(),
         CreateProfile.routeName: (ctx) => CreateProfile(),
