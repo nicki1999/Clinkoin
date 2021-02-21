@@ -8,6 +8,7 @@ import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet.dart';
+import 'package:clinkoin/screens/wallet_not_login.dart';
 import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: FeedBack(),
+      home: WalletNotLogin(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         FeedBack.routeName: (ctx) => FeedBack(),
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>
             FirstTimeHomePageWaitForOverlay(),
         FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
+        WalletNotLogin.routeName: (ctx) => WalletNotLogin(),
         FirstViewUserTutorialPredicted.routeName: (ctx) =>
             FirstViewUserTutorialPredicted(),
       },
