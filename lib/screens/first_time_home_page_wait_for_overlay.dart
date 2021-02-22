@@ -1,6 +1,8 @@
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/models/feature.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
+import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,18 @@ class _FirstTimeHomePageWaitForOverlayState
       }
       checkButton[num] = true;
     });
+  }
+
+  final List<Feature> features = [
+    Feature(
+      color: Color.fromRGBO(41, 114, 255, 1),
+      data: [0.2, 0.8, 0.4, 0.7, 0.6],
+    ),
+  ];
+  @override
+  void initState() {
+    print('this is overlay');
+    super.initState();
   }
 
   void _changeScreen(BuildContext context) {
@@ -445,13 +459,19 @@ class _FirstTimeHomePageWaitForOverlayState
                       ),
                     ],
                   ),
-                  SizedBox(
-                      height: (MediaQuery.of(context).size.height * .15) - 62),
-                  Container(
-                    height: MediaQuery.of(context).size.height * .25,
-                    width: MediaQuery.of(context).size.width * 1,
-                    color: Colors.blue,
+                  // SizedBox(
+                  //     height: (MediaQuery.of(context).size.height * .15) - 62),
+                  FittedBox(
+                    child: LineGraph(
+                      features: features,
+                      size: Size(400, 200),
+                      labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                      labelY: ['\$24,000', '', '60%', '', '100%'],
+                      showDescription: false,
+                      graphColor: Color.fromRGBO(210, 210, 210, 1),
+                    ),
                   ),
+
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .01,
                   ),

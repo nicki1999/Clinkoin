@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.3.3
-  draw_graph: ^0.0.2
   countdown_flutter: ^0.1.1
   circular_countdown_timer: ^0.1.0
 
