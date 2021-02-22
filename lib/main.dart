@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: WalletNotLogin(),
+      home: FirstTimeHomePageWaitForOverlay(),
       routes: {
         ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
         FeedBack.routeName: (ctx) => FeedBack(),

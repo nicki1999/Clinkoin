@@ -1,4 +1,6 @@
+import 'package:clinkoin/screens/feedback.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
+import 'package:clinkoin/screens/wallet_not_login.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -451,7 +453,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
     });
-
+    print('this is homepage');
     super.initState();
   }
 
@@ -476,21 +478,28 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Image.asset('assets/images/bitcoin-medium.png'),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '220 SATOSHI',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 5),
-                      Image.asset('assets/images/question-icon.png'),
-                    ],
+                  InkWell(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(WalletNotLogin.routeName),
+                    child: Row(
+                      children: [
+                        Image.asset('assets/images/bitcoin-medium.png'),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '220 SATOSHI',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 5),
+                        Image.asset('assets/images/question-icon.png'),
+                      ],
+                    ),
                   ),
-                  Image.asset('assets/images/feedback.png'),
+                  InkWell(
+                      onTap: () =>
+                          Navigator.of(context).pushNamed(FeedBack.routeName),
+                      child: Image.asset('assets/images/feedback.png')),
                 ],
               ),
             ),
