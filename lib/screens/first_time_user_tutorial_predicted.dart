@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/models/feature.dart';
 import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
+import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +35,12 @@ class _FirstViewUserTutorialPredictedState
     });
   }
 
+  final List<Feature> features = [
+    Feature(
+      color: Color.fromRGBO(41, 114, 255, 1),
+      data: [0.2, 0.8, 0.4, 0.7, 0.6],
+    ),
+  ];
   @override
   void initState() {
     duration = new Duration(hours: hours, seconds: seconds, minutes: minutes);
@@ -89,10 +97,23 @@ class _FirstViewUserTutorialPredictedState
               ),
             ),
             SizedBox(height: (MediaQuery.of(context).size.height * .15) - 62),
-            Container(
-              height: MediaQuery.of(context).size.height * .35,
-              width: MediaQuery.of(context).size.width * 1,
-              color: Colors.blue,
+            FittedBox(
+              child: LineGraph(
+                features: features,
+                size: Size(
+                    400,
+                    MediaQuery.of(context).size.height > 800
+                        ? MediaQuery.of(context).size.height * .35
+                        : MediaQuery.of(context).size.height * .32),
+                labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                labelY: [
+                  '\$24,000',
+                  '60%',
+                  '100%',
+                ],
+                showDescription: false,
+                graphColor: Color.fromRGBO(210, 210, 210, 1),
+              ),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * .01,

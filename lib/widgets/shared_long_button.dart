@@ -12,7 +12,7 @@ class SharedLongButton extends StatelessWidget {
       // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
       height: 40,
       child: RaisedButton(
-        elevation: 1,
+        elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         color: Color.fromRGBO(41, 114, 255, 1),
         onPressed: () {

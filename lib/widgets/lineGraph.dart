@@ -27,7 +27,7 @@ class LineGraphPainter extends CustomPainter {
       }
     }
 
-    _offsetX *= 7;
+    _offsetX *= 6.1;
     _offsetX += 2 * size.width / 20;
     Size margin = Size(_offsetX, size.height / 8);
     Size graph = Size(
@@ -36,7 +36,7 @@ class LineGraphPainter extends CustomPainter {
     );
     Size cell = Size(
       graph.width / (labelX.length - 1),
-      graph.height / labelY.length,
+      graph.height * 1.58 / labelY.length,
     );
 
     drawAxis(canvas, graph, margin);
@@ -72,9 +72,9 @@ class LineGraphPainter extends CustomPainter {
     canvas.drawLine(Offset(margin.width - 70, graph.height + margin.height),
         xEnd, linePaint);
     canvas.drawLine(
-        Offset(margin.width - 70, (graph.height + margin.height) / 1.8),
+        Offset(margin.width - 70, (graph.height + margin.height) / 1.85),
         Offset(graph.width + 1.2 * margin.width,
-            (graph.height + margin.height) / 1.8),
+            (graph.height + margin.height) / 1.85),
         linePaint);
     canvas.drawLine(
         Offset(margin.width - 70, (graph.height + margin.height) / 15),
@@ -104,8 +104,8 @@ class LineGraphPainter extends CustomPainter {
       tp.paint(
         canvas,
         new Offset(
-          size.width / 1.18,
-          margin.height + graph.height - (i + 1) * cell.height,
+          size.width / 1.16,
+          margin.height + graph.height - (i + .1) * cell.height,
         ),
       );
     }
@@ -128,7 +128,7 @@ class LineGraphPainter extends CustomPainter {
       tp.paint(
         canvas,
         new Offset(
-          margin.width + cell.width * i - 62,
+          margin.width / 1.1 + cell.width / .8 * i - 62,
           margin.height + graph.height + 10,
         ),
       );
