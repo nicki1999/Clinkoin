@@ -1,10 +1,15 @@
 import 'package:clinkoin/main.dart';
 import 'package:clinkoin/models/feature.dart';
+import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
 import 'package:clinkoin/widgets/draw_graph.dart';
+import 'package:clinkoin/widgets/lose_message.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
+import 'package:clinkoin/widgets/win_message.dart';
 import 'package:flutter/material.dart';
+
+import 'feedback.dart';
 
 class FirstTimeHomePageWaitForOverlay extends StatefulWidget {
   static final routeName = '/FirstTimeHomePageWaitForOverlay';
@@ -33,9 +38,9 @@ class _FirstTimeHomePageWaitForOverlayState
       data: [0.2, 0.8, 0.4, 0.7, 0.6],
     ),
   ];
+
   @override
   void initState() {
-    print('this is overlay');
     super.initState();
   }
 
@@ -54,7 +59,7 @@ class _FirstTimeHomePageWaitForOverlayState
       builder: (context) {
         return SingleChildScrollView(
           child: Container(
-            height: 400,
+            height: 382,
             color: Color(0xFF737373),
             child: Container(
               decoration: BoxDecoration(
@@ -122,217 +127,19 @@ class _FirstTimeHomePageWaitForOverlayState
 
   @override
   void didChangeDependencies() {
+    print(MediaQuery.of(context).size.height);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container(
-              padding: EdgeInsets.only(right: 16, left: 16, bottom: 24),
-              width: MediaQuery.of(context).size.width * 1,
-              height: 570,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 16),
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          _showModal();
-                        },
-                        child: Image.asset('assets/images/dialog-close.png')),
-                  ),
-                  Image.asset('assets/images/alien.png'),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .05,
-                  ),
-                  Text(
-                    'Success!',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: MyApp.twentyOne),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .03,
-                  ),
-                  Text(
-                    'You correctly predicted',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' that Bitcoin would go',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        TextSpan(
-                            text: ' up',
-                            style: TextStyle(
-                                color: Color.fromRGBO(32, 174, 138, 1),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16))
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .03,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 26, vertical: 11),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color.fromRGBO(217, 217, 217, 1),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Bitcoin went up ',
-                            style: TextStyle(color: Colors.black, fontSize: 16),
-                          ),
-                          TextSpan(
-                              text: '\$667.55',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(32, 174, 138, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16))
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .05,
-                  ),
-                  FittedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .05,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Price at Forecast',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(81, 81, 81, 1)),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '\$ 23,472.97',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                  color: Color.fromRGBO(81, 81, 81, 1)),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .05,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Current Price',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(81, 81, 81, 1)),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '\$ 24,472.97',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                      color: Color.fromRGBO(32, 174, 138, 1)),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Container(
-                                  child: Image.asset(
-                                      'assets/images/green-polygon.png'),
-                                  margin: EdgeInsets.only(top: 10),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .05,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 90,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            FittedBox(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'You are currently gaining',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 6,
-                                  ),
-                                  Text('+220 SATOSHI',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(248, 157, 46, 1),
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            SharedLongButton(
-                              button: _changeScreen,
-                              buttonText: 'Onward & Upwards',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
+          return WinMessage();
+        },
+      );
+      showDialog(
+        context: context,
+        builder: (context) {
+          return LoseMessage();
         },
       );
     });
@@ -380,7 +187,11 @@ class _FirstTimeHomePageWaitForOverlayState
                       ],
                     ),
                   ),
-                  Image.asset('assets/images/feedback.png'),
+                  InkWell(
+                    child: Image.asset('assets/images/feedback.png'),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(FeedBack.routeName),
+                  ),
                 ],
               ),
             ),
@@ -399,81 +210,96 @@ class _FirstTimeHomePageWaitForOverlayState
               ),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      Image.asset(
-                        'assets/images/bitcoin-small.png',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/bitcoin-small.png',
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'Bitcoin (BTC)',
+                            style: TextStyle(
+                                fontSize: MyApp.twentyOne,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       SizedBox(
-                        width: 6,
+                        height: MediaQuery.of(context).size.height * .03,
                       ),
                       Text(
-                        'Bitcoin (BTC)',
+                        'Will bitcoin go up or down?',
                         style: TextStyle(
-                            fontSize: MyApp.twentyOne,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .03,
-                  ),
-                  Text(
-                    'Will bitcoin go up or down?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text('(Predict for next 30 Second)'),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .03,
-                  ),
-                  Text(
-                    '\$ 24,472.971',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '+4.77%',
-                        style: TextStyle(
-                            color: Color.fromRGBO(41, 162, 135, 1),
-                            fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(
-                        width: 4,
+                        height: 4,
+                      ),
+                      Text('(Predict for next 30 Second)'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .03,
                       ),
                       Text(
-                        '24 Hours',
+                        '\$ 24,472.971',
                         style: TextStyle(
-                            color: Color.fromRGBO(114, 118, 129, 1),
-                            fontWeight: FontWeight.bold),
+                            fontSize: 28, fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '+4.77%',
+                            style: TextStyle(
+                                color: Color.fromRGBO(41, 162, 135, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            '24 Hours',
+                            style: TextStyle(
+                                color: Color.fromRGBO(114, 118, 129, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 3),
                     ],
                   ),
+
                   // SizedBox(
                   //     height: (MediaQuery.of(context).size.height * .15) - 62),
                   FittedBox(
                     child: LineGraph(
                       features: features,
-                      size: Size(400, 200),
+                      size: Size(
+                          400,
+                          MediaQuery.of(context).size.height > 800
+                              ? MediaQuery.of(context).size.height * .35
+                              : MediaQuery.of(context).size.height * .31),
                       labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                      labelY: ['\$24,000', '', '60%', '', '100%'],
+                      labelY: [
+                        '\$24,000',
+                        '60%',
+                        '100%',
+                      ],
                       showDescription: false,
                       graphColor: Color.fromRGBO(210, 210, 210, 1),
                     ),
                   ),
 
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * .01,
+                    height: MediaQuery.of(context).size.height * .015,
                   ),
                   FittedBox(
                     child: Row(
@@ -596,9 +422,6 @@ class _FirstTimeHomePageWaitForOverlayState
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .01,
-                  ),
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -609,7 +432,10 @@ class _FirstTimeHomePageWaitForOverlayState
                             height: 40,
                             width: MediaQuery.of(context).size.width * .4,
                             child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(PredictedUndo.routeName);
+                              },
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                   color: Color.fromRGBO(249, 48, 128, 1),
@@ -646,7 +472,10 @@ class _FirstTimeHomePageWaitForOverlayState
                             height: 40,
                             width: MediaQuery.of(context).size.width * .4,
                             child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(PredictedUndo.routeName);
+                              },
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                   color: Color.fromRGBO(32, 174, 138, 1),

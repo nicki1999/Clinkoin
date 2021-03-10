@@ -7,6 +7,224 @@ class WalletNotLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future _confirmPayment(BuildContext context) {
+      return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Container(
+              height: 383,
+              color: Color(0xFF737373),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(25.0),
+                    topRight: const Radius.circular(25.0),
+                  ),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: 20,
+                    right: 24,
+                    left: 24,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Confirm Payment',
+                              style: TextStyle(
+                                  fontSize: 21, fontWeight: FontWeight.bold),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child:
+                                  Image.asset('assets/images/dialog-close.png'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '25,000 ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 23),
+                          ),
+                          Text('(Satoshi)'),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '4.65\$ - ',
+                            style: TextStyle(
+                                color: Color.fromRGBO(142, 155, 166, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '0.1\$ ',
+                            style: TextStyle(
+                                color: Color.fromRGBO(211, 89, 154, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '= 4.64\$',
+                            style: TextStyle(
+                                color: Color.fromRGBO(142, 155, 166, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 1,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'This may take up to 24 hourse. Fees of this transfer will be deducted.',
+                          style: TextStyle(fontSize: 11),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'BTC Wallet',
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                5.0,
+                              ),
+                            ),
+                            borderSide: new BorderSide(
+                              color: Colors.grey,
+                              width: 2.5,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                5.0,
+                              ),
+                            ),
+                            borderSide: new BorderSide(
+                              color: Colors.grey,
+                              width: 2.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Text(
+                            'Careful! Enter your ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                          Text(
+                            'BTC Wallet Address',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(63, 128, 255, 1),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                          child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * .42,
+                              // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
+                              height: 40,
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                color: Color.fromRGBO(223, 230, 255, 1),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Close',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(41, 114, 255, 1),
+                                    fontFamily: Theme.of(context)
+                                        .textTheme
+                                        .body1
+                                        .fontFamily,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * .42,
+                              // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
+                              height: 40,
+                              child: RaisedButton(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                color: Color.fromRGBO(41, 114, 255, 1),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Withdraw',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: Theme.of(context)
+                                        .textTheme
+                                        .body1
+                                        .fontFamily,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                      SizedBox(
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     Future _showModal(BuildContext context) {
       return showModalBottomSheet(
         context: context,
@@ -109,7 +327,7 @@ class WalletNotLogin extends StatelessWidget {
         builder: (context) {
           return SingleChildScrollView(
             child: Container(
-              height: 400,
+              height: 382,
               color: Color(0xFF737373),
               child: Container(
                 decoration: BoxDecoration(
@@ -289,7 +507,7 @@ class WalletNotLogin extends StatelessWidget {
                     height: 10,
                   ),
                   SharedLongButton(
-                    button: _showModal,
+                    button: _confirmPayment,
                     buttonText: 'Withdraw',
                   ),
                   SizedBox(

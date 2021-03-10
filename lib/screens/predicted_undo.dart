@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:clinkoin/models/feature.dart';
+import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,12 @@ class _PredictedUndoState extends State<PredictedUndo> {
   var duration;
   StreamController errorController;
   CountdownFormatted timer;
+  final List<Feature> features = [
+    Feature(
+      color: Color.fromRGBO(41, 114, 255, 1),
+      data: [0.2, 0.8, 0.4, 0.7, 0.6],
+    ),
+  ];
   @override
   void initState() {
     duration = new Duration(hours: hours, seconds: seconds, minutes: minutes);
@@ -197,10 +205,23 @@ class _PredictedUndoState extends State<PredictedUndo> {
                   ),
                   SizedBox(
                       height: (MediaQuery.of(context).size.height * .12) - 62),
-                  Container(
-                    height: MediaQuery.of(context).size.height * .25,
-                    width: MediaQuery.of(context).size.width * 1,
-                    color: Colors.blue,
+                  FittedBox(
+                    child: LineGraph(
+                      features: features,
+                      size: Size(
+                          400,
+                          MediaQuery.of(context).size.height > 800
+                              ? MediaQuery.of(context).size.height * .33
+                              : MediaQuery.of(context).size.height * .28),
+                      labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                      labelY: [
+                        '\$24,000',
+                        '60%',
+                        '100%',
+                      ],
+                      showDescription: false,
+                      graphColor: Color.fromRGBO(210, 210, 210, 1),
+                    ),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .01,
@@ -393,7 +414,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .05,
-                          height: MediaQuery.of(context).size.height * .13,
+                          height: MediaQuery.of(context).size.height * .12,
                         ),
                       ],
                     ),
