@@ -8,6 +8,7 @@ import 'package:clinkoin/widgets/lose_message.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:clinkoin/widgets/win_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'feedback.dart';
 
@@ -34,7 +35,11 @@ class _FirstTimeHomePageWaitForOverlayState
 
   final List<Feature> features = [
     Feature(
-      color: Color.fromRGBO(41, 114, 255, 1),
+      color: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Colors.purple, Colors.blue],
+      ),
       data: [0.2, 0.8, 0.4, 0.7, 0.6],
     ),
   ];
@@ -83,9 +88,10 @@ class _FirstTimeHomePageWaitForOverlayState
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child: Image.asset('assets/images/dialog-close.png')),
+                        child:
+                            SvgPicture.asset('assets/images/dialog-close.svg')),
                   ),
-                  Image.asset('assets/images/alien-no-money.png'),
+                  SvgPicture.asset('assets/images/alien-no-money.svg'),
                   SizedBox(
                     height: 12,
                   ),
@@ -94,17 +100,23 @@ class _FirstTimeHomePageWaitForOverlayState
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    height: 12,
+                    height: 10,
                   ),
                   Text(
                     'Let’s setup your acccount to continue!',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    height: 17,
+                    height: 13,
                   ),
-                  Text('You’ll secure your rewards and earn real '),
-                  Text('money towards your first investment.'),
+                  Text(
+                    'You’ll secure your rewards and earn real ',
+                    style: TextStyle(fontSize: MyApp.fourTeen),
+                  ),
+                  Text(
+                    'money towards your first investment.',
+                    style: TextStyle(fontSize: MyApp.fourTeen),
+                  ),
                   Expanded(
                       child: Align(
                     alignment: Alignment.bottomCenter,
@@ -125,25 +137,35 @@ class _FirstTimeHomePageWaitForOverlayState
     );
   }
 
+  bool firstTimeFlag = true;
   @override
   void didChangeDependencies() {
     print(MediaQuery.of(context).size.height);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return WinMessage();
-        },
-      );
-      showDialog(
-        context: context,
-        builder: (context) {
-          return LoseMessage();
-        },
-      );
+    if (firstTimeFlag == true)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return WinMessage(
+              showModal: _changeScreen,
+            );
+          },
+        );
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return LoseMessage(
+              showModal: _changeScreen,
+            );
+          },
+        );
+      });
+    setState(() {
+      firstTimeFlag = false;
     });
-
     super.didChangeDependencies();
   }
 
@@ -169,26 +191,27 @@ class _FirstTimeHomePageWaitForOverlayState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(WalletNotLogin.routeName);
-                    },
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(WalletNotLogin.routeName),
                     child: Row(
                       children: [
-                        Image.asset('assets/images/bitcoin-medium.png'),
+                        SvgPicture.asset('assets/images/bitcoin-medium.svg'),
                         SizedBox(
                           width: 5,
                         ),
                         Text(
                           '220 SATOSHI',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyApp.fourTeen),
                         ),
                         SizedBox(width: 5),
-                        Image.asset('assets/images/question-icon.png'),
+                        SvgPicture.asset('assets/images/question-icon.svg'),
                       ],
                     ),
                   ),
                   InkWell(
-                    child: Image.asset('assets/images/feedback.png'),
+                    child: SvgPicture.asset('assets/images/sad-alien.svg'),
                     onTap: () =>
                         Navigator.of(context).pushNamed(FeedBack.routeName),
                   ),
@@ -215,8 +238,8 @@ class _FirstTimeHomePageWaitForOverlayState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/bitcoin-small.png',
+                          SvgPicture.asset(
+                            'assets/images/bitcoin-small.svg',
                           ),
                           SizedBox(
                             width: 6,
@@ -241,7 +264,12 @@ class _FirstTimeHomePageWaitForOverlayState
                       SizedBox(
                         height: 4,
                       ),
-                      Text('(Predict for next 30 Second)'),
+                      Text(
+                        '(Predict for next 30 Second)',
+                        style: TextStyle(
+                          fontSize: MyApp.fourTeen,
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .03,
                       ),
@@ -273,28 +301,33 @@ class _FirstTimeHomePageWaitForOverlayState
                           ),
                         ],
                       ),
-                      SizedBox(height: 3),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .033,
+                      ),
                     ],
                   ),
 
                   // SizedBox(
                   //     height: (MediaQuery.of(context).size.height * .15) - 62),
                   FittedBox(
-                    child: LineGraph(
-                      features: features,
-                      size: Size(
-                          400,
-                          MediaQuery.of(context).size.height > 800
-                              ? MediaQuery.of(context).size.height * .35
-                              : MediaQuery.of(context).size.height * .31),
-                      labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                      labelY: [
-                        '\$24,000',
-                        '60%',
-                        '100%',
-                      ],
-                      showDescription: false,
-                      graphColor: Color.fromRGBO(210, 210, 210, 1),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      child: LineGraph(
+                        features: features,
+                        size: Size(
+                            400,
+                            MediaQuery.of(context).size.height > 800
+                                ? MediaQuery.of(context).size.height * .35
+                                : MediaQuery.of(context).size.height * .31),
+                        labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                        labelY: [
+                          '\$24,000',
+                          '60%',
+                          '100%',
+                        ],
+                        showDescription: false,
+                        graphColor: Color.fromRGBO(210, 210, 210, 1),
+                      ),
                     ),
                   ),
 
@@ -314,7 +347,10 @@ class _FirstTimeHomePageWaitForOverlayState
                           },
                           child: Text(
                             '1H',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyApp.twelve,
+                            ),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[0]
@@ -334,7 +370,9 @@ class _FirstTimeHomePageWaitForOverlayState
                           },
                           child: Text(
                             '1D',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[1]
@@ -354,7 +392,9 @@ class _FirstTimeHomePageWaitForOverlayState
                           },
                           child: Text(
                             '1W',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[2]
@@ -374,7 +414,9 @@ class _FirstTimeHomePageWaitForOverlayState
                           },
                           child: Text(
                             '1M',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[3]
@@ -399,7 +441,7 @@ class _FirstTimeHomePageWaitForOverlayState
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Image.asset('assets/images/blue-chart.png'),
+                              SvgPicture.asset('assets/images/blue-chart.svg'),
                               SizedBox(
                                 width: 5,
                               ),
@@ -407,7 +449,8 @@ class _FirstTimeHomePageWaitForOverlayState
                                 'Watch Live',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(41, 114, 255, 1)),
+                                    color: Color.fromRGBO(41, 114, 255, 1),
+                                    fontSize: MyApp.twelve),
                               ),
                             ],
                           ),
@@ -430,7 +473,7 @@ class _FirstTimeHomePageWaitForOverlayState
                         children: [
                           Container(
                             height: 40,
-                            width: MediaQuery.of(context).size.width * .4,
+                            width: MediaQuery.of(context).size.width * .41,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.of(context)
@@ -448,8 +491,8 @@ class _FirstTimeHomePageWaitForOverlayState
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Image.asset(
-                                        'assets/images/red-arrow-down.png'),
+                                    SvgPicture.asset(
+                                        'assets/images/red-arrow-down.svg'),
                                     SizedBox(
                                       width: 8,
                                     ),
@@ -458,7 +501,7 @@ class _FirstTimeHomePageWaitForOverlayState
                                       style: TextStyle(
                                           color:
                                               Color.fromRGBO(249, 48, 128, 1),
-                                          fontSize: 16),
+                                          fontSize: MyApp.fourTeen),
                                     ),
                                   ],
                                 ),
@@ -470,7 +513,7 @@ class _FirstTimeHomePageWaitForOverlayState
                           ),
                           Container(
                             height: 40,
-                            width: MediaQuery.of(context).size.width * .4,
+                            width: MediaQuery.of(context).size.width * .41,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.of(context)
@@ -487,8 +530,8 @@ class _FirstTimeHomePageWaitForOverlayState
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                      'assets/images/green-arrow-up.png'),
+                                  SvgPicture.asset(
+                                      'assets/images/green-arrow-up.svg'),
                                   SizedBox(
                                     width: 8,
                                   ),
@@ -496,7 +539,7 @@ class _FirstTimeHomePageWaitForOverlayState
                                     'Going Up',
                                     style: TextStyle(
                                         color: Color.fromRGBO(32, 174, 138, 1),
-                                        fontSize: 16),
+                                        fontSize: MyApp.fourTeen),
                                   ),
                                 ],
                               ),
@@ -533,19 +576,22 @@ class _FirstTimeHomePageWaitForOverlayState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FittedBox(
-                        child: Row(
-                          children: [
-                            Image.asset('assets/images/cup.png'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Global Battle',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyApp.twentyOne),
-                            ),
-                          ],
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            children: [
+                              Image.asset('assets/images/cup.png'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Global Battle',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: MyApp.twentyOne),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       FittedBox(
@@ -558,7 +604,9 @@ class _FirstTimeHomePageWaitForOverlayState
                           onPressed: () => null,
                           child: Text(
                             'Coming Soon!',
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       )

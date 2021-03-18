@@ -7,9 +7,7 @@ import 'package:clinkoin/screens/forcast_bitcoin.dart';
 import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
-import 'package:clinkoin/screens/wallet.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
-import 'package:clinkoin/screens/winsatoshi_risk_free.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +39,8 @@ class MyApp extends StatelessWidget {
 
   static final twentyOne = 21.0;
   static final eighteen = 18.0;
+  static final fourTeen = 14.0;
+  static final twelve = 12.0;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,6 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (ctx) => HomePage(),
         CreateProfile.routeName: (ctx) => CreateProfile(),
         SignUp.routeName: (ctx) => SignUp(),
-        WinsatoshiRiskFree.routeName: (ctx) => WinsatoshiRiskFree(),
-        Wallet.routeName: (ctx) => Wallet(),
         FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>
             FirstTimeHomePageWaitForOverlay(),
         FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),

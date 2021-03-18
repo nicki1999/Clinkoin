@@ -8,6 +8,7 @@ import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class FirstViewUserTutorialPredicted extends StatefulWidget {
   static final routeName = '/FirstTimeUserTutorialPredicted';
@@ -37,7 +38,11 @@ class _FirstViewUserTutorialPredictedState
 
   final List<Feature> features = [
     Feature(
-      color: Color.fromRGBO(41, 114, 255, 1),
+      color: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Colors.purple, Colors.blue],
+      ),
       data: [0.2, 0.8, 0.4, 0.7, 0.6],
     ),
   ];
@@ -63,19 +68,22 @@ class _FirstViewUserTutorialPredictedState
       },
       builder: (BuildContext ctx, String remaining) {
         return Text(
-            '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})'); // 01:00:00
+          '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})',
+          style: TextStyle(fontSize: MyApp.fourTeen),
+        ); // 01:00:00
       },
     );
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .1),
+        margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * .1, left: 16, right: 16),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/bitcoin-small.png',
+                SvgPicture.asset(
+                  'assets/images/bitcoin-small.svg',
                 ),
                 SizedBox(
                   width: 6,
@@ -98,21 +106,24 @@ class _FirstViewUserTutorialPredictedState
             ),
             SizedBox(height: (MediaQuery.of(context).size.height * .15) - 62),
             FittedBox(
-              child: LineGraph(
-                features: features,
-                size: Size(
-                    400,
-                    MediaQuery.of(context).size.height > 800
-                        ? MediaQuery.of(context).size.height * .35
-                        : MediaQuery.of(context).size.height * .32),
-                labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                labelY: [
-                  '\$24,000',
-                  '60%',
-                  '100%',
-                ],
-                showDescription: false,
-                graphColor: Color.fromRGBO(210, 210, 210, 1),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 4),
+                child: LineGraph(
+                  features: features,
+                  size: Size(
+                      400,
+                      MediaQuery.of(context).size.height > 800
+                          ? MediaQuery.of(context).size.height * .35
+                          : MediaQuery.of(context).size.height * .32),
+                  labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                  labelY: [
+                    '\$24,000',
+                    '60%',
+                    '100%',
+                  ],
+                  showDescription: false,
+                  graphColor: Color.fromRGBO(210, 210, 210, 1),
+                ),
               ),
             ),
             SizedBox(
@@ -131,7 +142,8 @@ class _FirstViewUserTutorialPredictedState
                     },
                     child: Text(
                       '1H',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: MyApp.twelve),
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: checkButton[0]
@@ -151,7 +163,8 @@ class _FirstViewUserTutorialPredictedState
                     },
                     child: Text(
                       '1D',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: MyApp.twelve),
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: checkButton[1]
@@ -171,7 +184,8 @@ class _FirstViewUserTutorialPredictedState
                     },
                     child: Text(
                       '1W',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: MyApp.twelve),
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: checkButton[2]
@@ -191,7 +205,8 @@ class _FirstViewUserTutorialPredictedState
                     },
                     child: Text(
                       '1M',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: MyApp.twelve),
                     ),
                     style: TextButton.styleFrom(
                       backgroundColor: checkButton[3]
@@ -216,7 +231,7 @@ class _FirstViewUserTutorialPredictedState
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Image.asset('assets/images/blue-chart.png'),
+                        SvgPicture.asset('assets/images/blue-chart.svg'),
                         SizedBox(
                           width: 5,
                         ),
@@ -224,7 +239,8 @@ class _FirstViewUserTutorialPredictedState
                           'Watch Live',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(41, 114, 255, 1)),
+                              color: Color.fromRGBO(41, 114, 255, 1),
+                              fontSize: MyApp.twelve),
                         ),
                       ],
                     ),
@@ -254,7 +270,8 @@ class _FirstViewUserTutorialPredictedState
                       Text(
                         'Price at Forecast',
                         style: TextStyle(
-                            fontSize: 14, color: Color.fromRGBO(81, 81, 81, 1)),
+                            fontSize: MyApp.twelve,
+                            color: Color.fromRGBO(81, 81, 81, 1)),
                       ),
                       SizedBox(
                         height: 4,
@@ -276,7 +293,8 @@ class _FirstViewUserTutorialPredictedState
                       Text(
                         'Current Price',
                         style: TextStyle(
-                            fontSize: 14, color: Color.fromRGBO(81, 81, 81, 1)),
+                            fontSize: MyApp.twelve,
+                            color: Color.fromRGBO(81, 81, 81, 1)),
                       ),
                       SizedBox(
                         height: 4,
@@ -294,8 +312,8 @@ class _FirstViewUserTutorialPredictedState
                             width: 6,
                           ),
                           Container(
-                            child:
-                                Image.asset('assets/images/green-polygon.png'),
+                            child: SvgPicture.asset(
+                                'assets/images/green-polygon.svg'),
                             margin: EdgeInsets.only(top: 10),
                           ),
                         ],
@@ -304,33 +322,40 @@ class _FirstViewUserTutorialPredictedState
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .05,
-                    height: MediaQuery.of(context).size.height * .13,
+                    height: MediaQuery.of(context).size.height * .15,
                   ),
                 ],
               ),
             ),
-            Text('You selected Going Up'),
+            Text(
+              'You selected Going Up',
+              style: TextStyle(fontSize: MyApp.fourTeen),
+            ),
             SizedBox(
               height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/green-tick.png'),
+                SvgPicture.asset('assets/images/green-tick.svg'),
                 SizedBox(
                   width: 6,
                 ),
                 Text(
                   'You are currently gaining',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: MyApp.fourTeen),
                 ),
                 SizedBox(
                   width: 6,
                 ),
-                Text('+220 SATOSHI',
-                    style: TextStyle(
-                        color: Color.fromRGBO(248, 157, 46, 1),
-                        fontWeight: FontWeight.bold)),
+                Text(
+                  '+220 SATOSHI',
+                  style: TextStyle(
+                      color: Color.fromRGBO(248, 157, 46, 1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: MyApp.fourTeen),
+                ),
               ],
             ),
             SizedBox(

@@ -1,4 +1,6 @@
+import 'package:clinkoin/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class FeedBack extends StatelessWidget {
   static final routeName = '/FeedBack';
@@ -22,11 +24,13 @@ class FeedBack extends StatelessWidget {
           ),
           title: Text(
             "Feedback",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
       body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 16),
         width: MediaQuery.of(context).size.width * 1,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +38,7 @@ class FeedBack extends StatelessWidget {
             SizedBox(
               height: 66,
             ),
-            Image.asset('assets/images/Headphone.png'),
+            SvgPicture.asset('assets/images/Headphone.svg'),
             SizedBox(
               height: 35,
             ),
@@ -48,6 +52,7 @@ class FeedBack extends StatelessWidget {
             Text(
               'Send us your feedback or ask your questions.',
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: MyApp.fourTeen),
             ),
             Expanded(
               child: Align(
@@ -56,11 +61,10 @@ class FeedBack extends StatelessWidget {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 1,
-                      margin: EdgeInsets.symmetric(horizontal: 16),
                       // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
                       height: 40,
                       child: RaisedButton(
-                        elevation: 1,
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         color: Color.fromRGBO(41, 114, 255, 1),
@@ -68,7 +72,7 @@ class FeedBack extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset('assets/images/email.png'),
+                            SvgPicture.asset('assets/images/email.svg'),
                             Text(
                               'Contact via Email',
                               textAlign: TextAlign.center,
@@ -79,12 +83,13 @@ class FeedBack extends StatelessWidget {
                                     .body1
                                     .fontFamily,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                                fontSize: MyApp.fourTeen,
                               ),
                             ),
                             Opacity(
                               opacity: 0,
-                              child: Image.asset('assets/images/email.png'),
+                              child:
+                                  SvgPicture.asset('assets/images/email.svg'),
                             ),
                           ],
                         ),
@@ -99,11 +104,10 @@ class FeedBack extends StatelessWidget {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 1,
-              margin: EdgeInsets.symmetric(horizontal: 16),
               // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
               height: 40,
               child: RaisedButton(
-                elevation: 1,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                   side: BorderSide(
@@ -116,21 +120,20 @@ class FeedBack extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('assets/images/twitter.png'),
+                    SvgPicture.asset('assets/images/twitter.svg'),
                     Text(
                       'Contact via twitter',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color.fromRGBO(41, 114, 255, 1),
-                        fontFamily:
-                            Theme.of(context).textTheme.body1.fontFamily,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
+                          color: Color.fromRGBO(41, 114, 255, 1),
+                          fontFamily:
+                              Theme.of(context).textTheme.body1.fontFamily,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MyApp.fourTeen),
                     ),
                     Opacity(
                       opacity: 0,
-                      child: Image.asset('assets/images/email.png'),
+                      child: SvgPicture.asset('assets/images/email.svg'),
                     ),
                   ],
                 ),

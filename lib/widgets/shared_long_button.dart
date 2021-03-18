@@ -1,3 +1,4 @@
+import 'package:clinkoin/main.dart';
 import 'package:flutter/material.dart';
 
 class SharedLongButton extends StatelessWidget {
@@ -25,7 +26,7 @@ class SharedLongButton extends StatelessWidget {
             color: Colors.white,
             fontFamily: Theme.of(context).textTheme.body1.fontFamily,
             fontWeight: FontWeight.bold,
-            fontSize: 17,
+            fontSize: MyApp.fourTeen,
           ),
         ),
       ),
