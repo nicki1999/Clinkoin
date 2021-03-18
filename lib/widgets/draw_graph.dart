@@ -97,16 +97,15 @@ class _LineGraphState extends State<LineGraph> {
               height: 24,
               width: 24,
               decoration: BoxDecoration(
-                border: Border.all(color: feature.color, width: 2),
-                color: feature.color.withOpacity(widget.graphOpacity),
+                border: Border.all(
+                    color: Color.fromRGBO(41, 114, 255, 1), width: 2),
+                color: Color.fromRGBO(41, 114, 255, 1),
               ),
             ),
             SizedBox(width: 20),
             Text(
               feature.title,
-              style: TextStyle(
-                fontFamily: widget.fontFamily,
-              ),
+              style: TextStyle(fontFamily: widget.fontFamily, fontSize: 12),
             ),
           ],
         ),

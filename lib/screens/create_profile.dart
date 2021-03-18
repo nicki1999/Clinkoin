@@ -40,7 +40,8 @@ class _CreateProfileState extends State<CreateProfile> {
           backgroundColor: Colors.white,
           title: Text(
             "Create Profile",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
           ),
         ),
       ),
@@ -59,7 +60,7 @@ class _CreateProfileState extends State<CreateProfile> {
                 child: Text(
                   'What should we call you?',
                   style: TextStyle(
-                    fontSize: MyApp.eighteen,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -79,13 +80,13 @@ class _CreateProfileState extends State<CreateProfile> {
                   focusNode: _focusNode,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 10),
-                    errorStyle: TextStyle(fontSize: 15),
+                    errorStyle: TextStyle(fontSize: MyApp.fourTeen),
                     labelText: 'Name',
                     labelStyle: TextStyle(
-                      color: errorText
-                          ? Colors.red
-                          : Color.fromRGBO(41, 114, 255, 1),
-                    ),
+                        color: errorText
+                            ? Colors.red[600]
+                            : Color.fromRGBO(41, 114, 255, 1),
+                        fontSize: MyApp.twelve),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.grey.withAlpha(80),
@@ -127,11 +128,11 @@ class _CreateProfileState extends State<CreateProfile> {
                     'Done',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: Theme.of(context).textTheme.body1.fontFamily,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
+                        color: Colors.white,
+                        fontFamily:
+                            Theme.of(context).textTheme.body1.fontFamily,
+                        fontWeight: FontWeight.bold,
+                        fontSize: MyApp.fourTeen),
                   ),
                 ),
               ),

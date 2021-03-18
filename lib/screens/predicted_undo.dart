@@ -6,6 +6,7 @@ import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../main.dart';
 import 'first_time_home_page_wait_for_overlay.dart';
@@ -40,7 +41,11 @@ class _PredictedUndoState extends State<PredictedUndo> {
   CountdownFormatted timer;
   final List<Feature> features = [
     Feature(
-      color: Color.fromRGBO(41, 114, 255, 1),
+      color: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Colors.purple, Colors.blue],
+      ),
       data: [0.2, 0.8, 0.4, 0.7, 0.6],
     ),
   ];
@@ -79,7 +84,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
             strokeWidth: 2.0,
             strokeCap: StrokeCap.round,
             textStyle: TextStyle(
-                fontSize: 13.0,
+                fontSize: MyApp.twelve,
                 color: Colors.white,
                 fontWeight: FontWeight.bold),
             textFormat: CountdownTextFormat.S,
@@ -95,8 +100,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
           ),
           new Text("You Choosed",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-              )),
+                  fontWeight: FontWeight.bold, fontSize: MyApp.twelve)),
         ],
       ),
       behavior: SnackBarBehavior.floating,
@@ -121,7 +125,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
       },
       builder: (BuildContext ctx, String remaining) {
         return Text(
-            '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})'); // 01:00:00
+          '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})',
+          style: TextStyle(fontSize: MyApp.twelve),
+        ); // 01:00:00
       },
     );
     return Scaffold(
@@ -146,19 +152,21 @@ class _PredictedUndoState extends State<PredictedUndo> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/bitcoin-medium.png'),
+                      SvgPicture.asset('assets/images/bitcoin-medium.svg'),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         '220 SATOSHI',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: MyApp.fourTeen),
                       ),
                       SizedBox(width: 5),
-                      Image.asset('assets/images/question-icon.png'),
+                      SvgPicture.asset('assets/images/question-icon.svg'),
                     ],
                   ),
-                  Image.asset('assets/images/feedback.png'),
+                  SvgPicture.asset('assets/images/profile.svg'),
                 ],
               ),
             ),
@@ -180,8 +188,8 @@ class _PredictedUndoState extends State<PredictedUndo> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/bitcoin-small.png',
+                      SvgPicture.asset(
+                        'assets/images/bitcoin-small.svg',
                       ),
                       SizedBox(
                         width: 6,
@@ -206,21 +214,24 @@ class _PredictedUndoState extends State<PredictedUndo> {
                   SizedBox(
                       height: (MediaQuery.of(context).size.height * .12) - 62),
                   FittedBox(
-                    child: LineGraph(
-                      features: features,
-                      size: Size(
-                          400,
-                          MediaQuery.of(context).size.height > 800
-                              ? MediaQuery.of(context).size.height * .33
-                              : MediaQuery.of(context).size.height * .28),
-                      labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                      labelY: [
-                        '\$24,000',
-                        '60%',
-                        '100%',
-                      ],
-                      showDescription: false,
-                      graphColor: Color.fromRGBO(210, 210, 210, 1),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: LineGraph(
+                        features: features,
+                        size: Size(
+                            400,
+                            MediaQuery.of(context).size.height > 800
+                                ? MediaQuery.of(context).size.height * .38
+                                : MediaQuery.of(context).size.height * .32),
+                        labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+                        labelY: [
+                          '\$24,000',
+                          '60%',
+                          '100%',
+                        ],
+                        showDescription: false,
+                        graphColor: Color.fromRGBO(210, 210, 210, 1),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -239,7 +250,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           },
                           child: Text(
                             '1H',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[0]
@@ -259,7 +272,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           },
                           child: Text(
                             '1D',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[1]
@@ -279,7 +294,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           },
                           child: Text(
                             '1W',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[2]
@@ -299,7 +316,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           },
                           child: Text(
                             '1M',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twelve),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: checkButton[3]
@@ -324,7 +343,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Image.asset('assets/images/blue-chart.png'),
+                              SvgPicture.asset('assets/images/blue-chart.svg'),
                               SizedBox(
                                 width: 5,
                               ),
@@ -332,7 +351,8 @@ class _PredictedUndoState extends State<PredictedUndo> {
                                 'Watch Live',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(41, 114, 255, 1)),
+                                    color: Color.fromRGBO(41, 114, 255, 1),
+                                    fontSize: MyApp.twelve),
                               ),
                             ],
                           ),
@@ -362,7 +382,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                             Text(
                               'Price at Forecast',
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: MyApp.twelve,
                                   color: Color.fromRGBO(81, 81, 81, 1)),
                             ),
                             SizedBox(
@@ -385,7 +405,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                             Text(
                               'Current Price',
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: MyApp.twelve,
                                   color: Color.fromRGBO(81, 81, 81, 1)),
                             ),
                             SizedBox(
@@ -404,8 +424,8 @@ class _PredictedUndoState extends State<PredictedUndo> {
                                   width: 6,
                                 ),
                                 Container(
-                                  child: Image.asset(
-                                      'assets/images/green-polygon.png'),
+                                  child: SvgPicture.asset(
+                                      'assets/images/green-polygon.svg'),
                                   margin: EdgeInsets.only(top: 10),
                                 ),
                               ],
@@ -419,7 +439,10 @@ class _PredictedUndoState extends State<PredictedUndo> {
                       ],
                     ),
                   ),
-                  Text('You selected Going Up'),
+                  Text(
+                    'You selected Going Up',
+                    style: TextStyle(fontSize: MyApp.fourTeen),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -427,13 +450,15 @@ class _PredictedUndoState extends State<PredictedUndo> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/green-tick.png'),
+                        SvgPicture.asset('assets/images/green-tick.png'),
                         SizedBox(
                           width: 6,
                         ),
                         Text(
                           'You are currently gaining',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyApp.twelve),
                         ),
                         SizedBox(
                           width: 6,
@@ -441,6 +466,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                         Text('+220 SATOSHI',
                             style: TextStyle(
                                 color: Color.fromRGBO(248, 157, 46, 1),
+                                fontSize: MyApp.twelve,
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -473,19 +499,22 @@ class _PredictedUndoState extends State<PredictedUndo> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FittedBox(
-                        child: Row(
-                          children: [
-                            Image.asset('assets/images/cup.png'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Global Battle',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: MyApp.twentyOne),
-                            ),
-                          ],
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            children: [
+                              Image.asset('assets/images/cup.png'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Global Battle',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: MyApp.twentyOne),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       FittedBox(
@@ -498,7 +527,9 @@ class _PredictedUndoState extends State<PredictedUndo> {
                           onPressed: () => null,
                           child: Text(
                             'Coming Soon!',
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       )

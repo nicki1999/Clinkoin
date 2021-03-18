@@ -1,5 +1,7 @@
+import 'package:clinkoin/main.dart';
 import 'package:clinkoin/screens/create_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SignUp extends StatefulWidget {
   static final routeName = '/SignUp';
@@ -26,7 +28,8 @@ class _SignUpState extends State<SignUp> {
           ),
           title: Text(
             "Login/Register",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -51,20 +54,31 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Text(
                       'Sign in / Sign Up',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    Text('Secure your rewards.'),
+                    Text(
+                      'Secure your rewards.',
+                      style: TextStyle(fontSize: MyApp.fourTeen),
+                    ),
                     SizedBox(
                       height: 4,
                     ),
-                    Text('Save you statistics.'),
+                    Text(
+                      'Save you statistics.',
+                      style: TextStyle(fontSize: MyApp.fourTeen),
+                    ),
                     SizedBox(
                       height: 4,
                     ),
-                    Text('Earn real bitcoin in your wallet.'),
+                    Text(
+                      'Earn real bitcoin in your wallet.',
+                      style: TextStyle(fontSize: MyApp.fourTeen),
+                    ),
                     SizedBox(
                       height: 15,
                     ),
@@ -77,17 +91,23 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 15,
                     ),
-                    Text('We have google login yet'),
+                    Text(
+                      'We have google login yet',
+                      style: TextStyle(fontSize: MyApp.fourTeen),
+                    ),
                     SizedBox(
                       height: 4,
                     ),
-                    Text('We’ll add new methods soon'),
+                    Text(
+                      'We’ll add new methods soon',
+                      style: TextStyle(fontSize: MyApp.fourTeen),
+                    ),
                     SizedBox(
                       height: 15,
                     ),
                     Container(
                       alignment: Alignment.center,
-                      width: 210,
+                      width: 185,
                       padding: EdgeInsets.all(6),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
@@ -106,14 +126,17 @@ class _SignUpState extends State<SignUp> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset(
-                              'assets/images/google.png',
+                            SvgPicture.asset(
+                              'assets/images/google.svg',
                               width: 25,
                               height: 25,
                             ),
                             Text(
                               'Sign in with Google',
-                              style: TextStyle(color: Colors.black54),
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: MyApp.twelve,
+                              ),
                             ),
                           ],
                         ),
@@ -123,7 +146,8 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Positioned(
                     top: -60,
-                    child: Image.asset('assets/images/alien-no-money.png')),
+                    child:
+                        SvgPicture.asset('assets/images/alien-no-money.svg')),
               ],
               clipBehavior: Clip.none,
             ),

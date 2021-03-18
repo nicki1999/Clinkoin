@@ -1,5 +1,6 @@
 import 'package:clinkoin/models/feature.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 class LineGraphPainter extends CustomPainter {
   final List<Feature> features;
@@ -39,10 +40,6 @@ class LineGraphPainter extends CustomPainter {
       graph.height * 1.58 / labelY.length,
     );
 
-    drawAxis(canvas, graph, margin);
-    drawLabelsY(canvas, size, margin, graph, cell);
-    drawLabelsX(canvas, margin, graph, cell);
-
     for (int i = 0; i < features.length; i++) {
       drawGraph(
         features[i],
@@ -52,6 +49,9 @@ class LineGraphPainter extends CustomPainter {
         margin,
       );
     }
+    drawAxis(canvas, graph, margin);
+    drawLabelsY(canvas, size, margin, graph, cell);
+    drawLabelsX(canvas, margin, graph, cell);
   }
 
   @override
@@ -90,6 +90,7 @@ class LineGraphPainter extends CustomPainter {
     for (int i = 0; i < labelY.length; i++) {
       TextSpan span = new TextSpan(
         style: new TextStyle(
+          fontSize: 11,
           color: Colors.black,
           fontFamily: fontFamily,
         ),
@@ -115,6 +116,7 @@ class LineGraphPainter extends CustomPainter {
     for (int i = 0; i < labelX.length; i++) {
       TextSpan span = new TextSpan(
         style: new TextStyle(
+          fontSize: 11,
           color: Colors.black,
           fontFamily: fontFamily,
         ),
@@ -138,10 +140,18 @@ class LineGraphPainter extends CustomPainter {
   void drawGraph(
       Feature feature, Canvas canvas, Size graph, Size cell, Size margin) {
     Paint fillPaint = Paint()
-      ..color = feature.color.withOpacity(graphOpacity ?? 0.3)
-      ..style = PaintingStyle.fill;
+      // ..color = Colors.red
+      // ..style = PaintingStyle.fill;
+      ..shader = ui.Gradient.linear(
+        Offset(100, 0),
+        Offset(100, 190),
+        [
+          Color.fromRGBO(192, 214, 255, 1),
+          Colors.white,
+        ],
+      );
     Paint strokePaint = Paint()
-      ..color = feature.color
+      ..color = Color.fromRGBO(41, 114, 255, 1)
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

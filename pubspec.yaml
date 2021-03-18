@@ -27,6 +27,8 @@ dependencies:
   countdown_flutter: ^0.1.1
   carousel_slider: ^3.0.0
   circular_countdown_timer: ^0.1.0
+  flutter_swiper: ^1.1.6
+  flutter_svg: ^0.19.3
 
 
 
@@ -54,29 +56,29 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/chart.png
-    - assets/images/bitcoin.png
-    - assets/images/bitcoin-small.png
-    - assets/images/bitcoin-medium.png
-    - assets/images/wallet.png
-    - assets/images/blue-chart.png
-    - assets/images/red-arrow-down.png
-    - assets/images/green-arrow-up.png
-    - assets/images/green-tick.png
-    - assets/images/green-polygon.png
-    - assets/images/red-polygon.png
-    - assets/images/alien.png
-    - assets/images/dialog-close.png
-    - assets/images/question-icon.png
-    - assets/images/feedback.png
+    - assets/images/chart.svg
+    - assets/images/bitcoin.svg
+    - assets/images/bitcoin-small.svg
+    - assets/images/bitcoin-medium.svg
+    - assets/images/wallet.svg
+    - assets/images/blue-chart.svg
+    - assets/images/red-arrow-down.svg
+    - assets/images/green-arrow-up.svg
+    - assets/images/green-tick.svg
+    - assets/images/green-polygon.svg
+    - assets/images/red-polygon.svg
+    - assets/images/alien.svg
+    - assets/images/dialog-close.svg
+    - assets/images/question-icon.svg
     - assets/images/cup.png
-    - assets/images/google.png
-    - assets/images/alien-no-money.png
-    - assets/images/sad-alien.png
-    - assets/images/Headphone.png
-    - assets/images/email.png
-    - assets/images/twitter.png
-    - assets/images/login-bitcoin.png
+    - assets/images/google.svg
+    - assets/images/alien-no-money.svg
+    - assets/images/sad-alien.svg
+    - assets/images/Headphone.svg
+    - assets/images/profile.svg
+    - assets/images/email.svg
+    - assets/images/twitter.svg
+    - assets/images/login-bitcoin.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

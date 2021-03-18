@@ -1,14 +1,14 @@
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../main.dart';
 
 class WinMessage extends StatelessWidget {
-  void _changeScreen(BuildContext context) {
-    Navigator.of(context).pop();
-  }
+  final Function showModal;
 
+  WinMessage({this.showModal});
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -28,11 +28,11 @@ class WinMessage extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    this.showModal(context);
                   },
-                  child: Image.asset('assets/images/dialog-close.png')),
+                  child: SvgPicture.asset('assets/images/dialog-close.svg')),
             ),
-            Image.asset('assets/images/alien.png'),
+            SvgPicture.asset('assets/images/alien.svg'),
             SizedBox(
               height: MediaQuery.of(context).size.height * .05,
             ),
@@ -78,46 +78,48 @@ class WinMessage extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 26, vertical: 11),
+              margin: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Color.fromRGBO(217, 217, 217, 1),
                 ),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Bitcoin went up ',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    TextSpan(
-                        text: '\$667.55',
-                        style: TextStyle(
-                            color: Color.fromRGBO(32, 174, 138, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16))
-                  ],
+              child: FittedBox(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Bitcoin went up ',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ),
+                      TextSpan(
+                          text: '\$667.55',
+                          style: TextStyle(
+                              color: Color.fromRGBO(32, 174, 138, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16))
+                    ],
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * .07),
             FittedBox(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .05,
-                  ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * .05,
+                  // ),
                   Column(
                     children: [
                       Text(
                         'Price at Forecast',
                         style: TextStyle(
-                            fontSize: 14, color: Color.fromRGBO(81, 81, 81, 1)),
+                            fontSize: MyApp.twelve,
+                            color: Color.fromRGBO(81, 81, 81, 1)),
                       ),
                       SizedBox(
                         height: 4,
@@ -139,7 +141,8 @@ class WinMessage extends StatelessWidget {
                       Text(
                         'Current Price',
                         style: TextStyle(
-                            fontSize: 14, color: Color.fromRGBO(81, 81, 81, 1)),
+                            fontSize: MyApp.twelve,
+                            color: Color.fromRGBO(81, 81, 81, 1)),
                       ),
                       SizedBox(
                         height: 4,
@@ -157,17 +160,17 @@ class WinMessage extends StatelessWidget {
                             width: 6,
                           ),
                           Container(
-                            child:
-                                Image.asset('assets/images/green-polygon.png'),
+                            child: SvgPicture.asset(
+                                'assets/images/green-polygon.svg'),
                             margin: EdgeInsets.only(top: 10),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .05,
-                  ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * .05,
+                  // ),
                 ],
               ),
             ),
@@ -180,29 +183,61 @@ class WinMessage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       FittedBox(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'You are currently gaining',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Text('+220 SATOSHI',
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'You are currently gaining',
                                 style: TextStyle(
-                                    color: Color.fromRGBO(248, 157, 46, 1),
-                                    fontWeight: FontWeight.bold)),
-                          ],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: MyApp.fourTeen),
+                              ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              Text('+220 SATOSHI',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(248, 157, 46, 1),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: MyApp.fourTeen)),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      SharedLongButton(
-                        button: _changeScreen,
-                        buttonText: 'Onward & Upwards',
+                      // SharedLongButton(
+                      //   button: this.showModal,
+                      //   buttonText: 'Onward & Upwards',
+                      // ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 1,
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
+                        height: 40,
+                        child: RaisedButton(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          color: Color.fromRGBO(41, 114, 255, 1),
+                          onPressed: () {
+                            this.showModal(context);
+                          },
+                          child: Text(
+                            'Onward & Upwards',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily:
+                                  Theme.of(context).textTheme.body1.fontFamily,
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyApp.fourTeen,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

@@ -1,6 +1,9 @@
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../main.dart';
 
 class WalletNotLogin extends StatelessWidget {
   static final routeName = './WalletNotLogin';
@@ -39,15 +42,14 @@ class WalletNotLogin extends StatelessWidget {
                           children: [
                             Text(
                               'Confirm Payment',
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
-                              child:
-                                  Image.asset('assets/images/dialog-close.png'),
+                              child: SvgPicture.asset(
+                                  'assets/images/dialog-close.svg'),
                             ),
                           ],
                         ),
@@ -60,7 +62,8 @@ class WalletNotLogin extends StatelessWidget {
                           Text(
                             '25,000 ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 23),
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.twentyOne),
                           ),
                           Text('(Satoshi)'),
                         ],
@@ -70,23 +73,24 @@ class WalletNotLogin extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            '4.65\$ - ',
-                            style: TextStyle(
-                                color: Color.fromRGBO(142, 155, 166, 1),
-                                fontWeight: FontWeight.bold),
-                          ),
+                          Text('4.65\$ - ',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(142, 155, 166, 1),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MyApp.fourTeen)),
                           Text(
                             '0.1\$ ',
                             style: TextStyle(
                                 color: Color.fromRGBO(211, 89, 154, 1),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.fourTeen),
                           ),
                           Text(
                             '= 4.64\$',
                             style: TextStyle(
                                 color: Color.fromRGBO(142, 155, 166, 1),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.fourTeen),
                           ),
                         ],
                       ),
@@ -105,8 +109,10 @@ class WalletNotLogin extends StatelessWidget {
                         height: 20,
                       ),
                       TextField(
+                        onTap: () => null,
                         decoration: InputDecoration(
                           hintText: 'BTC Wallet',
+                          hintStyle: TextStyle(fontSize: MyApp.twelve),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(
@@ -137,14 +143,14 @@ class WalletNotLogin extends StatelessWidget {
                           Text(
                             'Careful! Enter your ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
+                                fontWeight: FontWeight.bold, fontSize: 11),
                           ),
                           Text(
                             'BTC Wallet Address',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(63, 128, 255, 1),
-                              fontSize: 12,
+                              fontSize: 11,
                             ),
                           ),
                         ],
@@ -177,7 +183,7 @@ class WalletNotLogin extends StatelessWidget {
                                         .body1
                                         .fontFamily,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 17,
+                                    fontSize: MyApp.fourTeen,
                                   ),
                                 ),
                               ),
@@ -198,14 +204,13 @@ class WalletNotLogin extends StatelessWidget {
                                   'Withdraw',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: Theme.of(context)
-                                        .textTheme
-                                        .body1
-                                        .fontFamily,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17,
-                                  ),
+                                      color: Colors.white,
+                                      fontFamily: Theme.of(context)
+                                          .textTheme
+                                          .body1
+                                          .fontFamily,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: MyApp.fourTeen),
                                 ),
                               ),
                             ),
@@ -255,7 +260,8 @@ class WalletNotLogin extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Image.asset('assets/images/dialog-close.png')),
+                          child: SvgPicture.asset(
+                              'assets/images/dialog-close.svg')),
                     ),
                     Text(
                       'Can’t whithdraw now',
@@ -267,12 +273,18 @@ class WalletNotLogin extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Need '),
+                        Text('Need ',
+                            style: TextStyle(fontSize: MyApp.fourTeen)),
                         Text(
                           '20,000',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MyApp.fourTeen),
                         ),
-                        Text(' more satoshi, keep going.'),
+                        Text(
+                          ' more satoshi, keep going.',
+                          style: TextStyle(fontSize: MyApp.fourTeen),
+                        ),
                       ],
                     ),
                     Expanded(
@@ -295,12 +307,13 @@ class WalletNotLogin extends StatelessWidget {
                             'Close',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color.fromRGBO(41, 114, 255, 1),
-                              fontFamily:
-                                  Theme.of(context).textTheme.body1.fontFamily,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),
+                                color: Color.fromRGBO(41, 114, 255, 1),
+                                fontFamily: Theme.of(context)
+                                    .textTheme
+                                    .body1
+                                    .fontFamily,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MyApp.fourTeen),
                           ),
                         ),
                       ),
@@ -351,21 +364,32 @@ class WalletNotLogin extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Image.asset('assets/images/dialog-close.png')),
+                          child: SvgPicture.asset(
+                              'assets/images/dialog-close.svg')),
                     ),
-                    Image.asset('assets/images/alien-no-money.png'),
+                    SvgPicture.asset('assets/images/alien-no-money.svg'),
                     SizedBox(
-                      height: 12,
+                      height: 28,
                     ),
                     Text(
                       'Let’s setup your acccount to continue!',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 17,
+                      height: 18,
                     ),
-                    Text('You’ll secure your rewards and earn real '),
-                    Text('money towards your first investment.'),
+                    Text(
+                      'You’ll secure your rewards and earn real ',
+                      style: TextStyle(
+                        fontSize: MyApp.fourTeen,
+                      ),
+                    ),
+                    Text(
+                      'money towards your first investment.',
+                      style: TextStyle(
+                        fontSize: MyApp.fourTeen,
+                      ),
+                    ),
                     Expanded(
                         child: Align(
                       alignment: Alignment.bottomCenter,
@@ -403,7 +427,10 @@ class WalletNotLogin extends StatelessWidget {
           ),
           title: Text(
             "Withdraw",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -464,8 +491,8 @@ class WalletNotLogin extends StatelessWidget {
                     ),
                     Positioned(
                       top: -85,
-                      child: Image.asset(
-                        'assets/images/login-bitcoin.png',
+                      child: SvgPicture.asset(
+                        'assets/images/login-bitcoin.svg',
                       ),
                     ),
                   ],
@@ -479,19 +506,25 @@ class WalletNotLogin extends StatelessWidget {
               children: [
                 Text(
                   '100,000,000 ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MyApp.fourTeen,
+                  ),
                 ),
                 Text(
                   '(SATOSHI)  =  ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
                 ),
                 Text(
                   '1 ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MyApp.fourTeen,
+                  ),
                 ),
                 Text(
                   ' (BITCOIN)',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
                 ),
               ],
             ),
@@ -499,16 +532,48 @@ class WalletNotLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'Unlock withdraw by collect atleast 20,000 satoshi',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'Unlock withdraw by collect atleast 20,000 satoshi',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MyApp.fourTeen,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  SharedLongButton(
-                    button: _confirmPayment,
-                    buttonText: 'Withdraw',
+                  // SharedLongButton(
+                  //   button: _confirmPayment,
+                  //   buttonText: 'Withdraw',
+                  // ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
+                    height: 40,
+                    child: RaisedButton(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      color: Color.fromRGBO(41, 114, 255, 1),
+                      onPressed: () {
+                        _confirmPayment(context);
+                      },
+                      child: Text(
+                        'Withdraw',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily:
+                              Theme.of(context).textTheme.body1.fontFamily,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MyApp.fourTeen,
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -523,12 +588,16 @@ class WalletNotLogin extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(41, 114, 255, 1),
                               decoration: TextDecoration.underline,
+                              fontSize: MyApp.fourTeen,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
                       Text(
                         'for saving your rewards!',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: MyApp.fourTeen,
+                        ),
                       ),
                     ],
                   ),
