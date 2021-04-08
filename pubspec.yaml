@@ -29,6 +29,9 @@ dependencies:
   circular_countdown_timer: ^0.1.0
   flutter_swiper: ^1.1.6
   flutter_svg: ^0.19.3
+  web_socket_channel: ^2.0.0
+  http: ^0.13.1
+  intl: ^0.17.0
 
 
 
@@ -62,8 +65,8 @@ flutter:
     - assets/images/bitcoin-medium.svg
     - assets/images/wallet.svg
     - assets/images/blue-chart.svg
-    - assets/images/red-arrow-down.svg
-    - assets/images/green-arrow-up.svg
+    - assets/images/arrow-down.svg
+    - assets/images/arrow-up.svg
     - assets/images/green-tick.svg
     - assets/images/green-polygon.svg
     - assets/images/red-polygon.svg

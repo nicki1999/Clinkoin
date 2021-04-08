@@ -492,7 +492,7 @@ class _FirstTimeHomePageWaitForOverlayState
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/images/red-arrow-down.svg'),
+                                        'assets/images/arrow-down.svg'),
                                     SizedBox(
                                       width: 8,
                                     ),
@@ -531,7 +531,7 @@ class _FirstTimeHomePageWaitForOverlayState
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                      'assets/images/green-arrow-up.svg'),
+                                      'assets/images/arrow-up.svg'),
                                   SizedBox(
                                     width: 8,
                                   ),

@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                      height: (MediaQuery.of(context).size.height * .11) - 62),
+                      height: (MediaQuery.of(context).size.height * .12) - 62),
                   FittedBox(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 4),
@@ -379,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/images/red-arrow-down.svg'),
+                                        'assets/images/arrow-down.svg'),
                                     SizedBox(
                                       width: 8,
                                     ),
@@ -418,7 +418,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                      'assets/images/green-arrow-up.svg'),
+                                      'assets/images/arrow-up.svg'),
                                   SizedBox(
                                     width: 8,
                                   ),

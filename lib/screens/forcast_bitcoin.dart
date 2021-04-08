@@ -141,7 +141,7 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
           margin: EdgeInsets.only(
             left: 8,
           ),
-          width: (MediaQuery.of(context).size.width * .81) - 24,
+          width: (MediaQuery.of(context).size.width * .81) - 20,
           //margin: EdgeInsets.only(left: 8),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -230,8 +230,8 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
         //   ),
         // ),
         Container(
-          width: (MediaQuery.of(context).size.width * .8) - 8,
-          margin: EdgeInsets.only(left: 8),
+          width: (MediaQuery.of(context).size.width * .8) - 12,
+          margin: EdgeInsets.only(left: 12),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),

@@ -532,13 +532,15 @@ class WalletNotLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      'Unlock withdraw by collect atleast 20,000 satoshi',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MyApp.fourTeen,
+                  FittedBox(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 24),
+                      child: Text(
+                        'Unlock withdraw by collect atleast 20,000 satoshi',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: MyApp.fourTeen,
+                        ),
                       ),
                     ),
                   ),
@@ -549,35 +551,35 @@ class WalletNotLogin extends StatelessWidget {
                   //   button: _confirmPayment,
                   //   buttonText: 'Withdraw',
                   // ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 1,
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
-                    height: 40,
-                    child: RaisedButton(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      color: Color.fromRGBO(41, 114, 255, 1),
-                      onPressed: () {
-                        _confirmPayment(context);
-                      },
-                      child: Text(
-                        'Withdraw',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily:
-                              Theme.of(context).textTheme.body1.fontFamily,
-                          fontWeight: FontWeight.bold,
-                          fontSize: MyApp.fourTeen,
+                  FittedBox(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      margin: EdgeInsets.only(left: 16, right: 16, bottom: 30),
+                      // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width < 340 ? 10: 20),
+                      height: 40,
+                      child: RaisedButton(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        color: Color.fromRGBO(41, 114, 255, 1),
+                        onPressed: () {
+                          _confirmPayment(context);
+                        },
+                        child: Text(
+                          'Withdraw',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily:
+                                Theme.of(context).textTheme.body1.fontFamily,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MyApp.fourTeen,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
