@@ -105,7 +105,7 @@ class LoseMessage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .07),
+            SizedBox(height: MediaQuery.of(context).size.height * .06),
             FittedBox(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

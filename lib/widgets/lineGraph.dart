@@ -144,7 +144,7 @@ class LineGraphPainter extends CustomPainter {
       // ..style = PaintingStyle.fill;
       ..shader = ui.Gradient.linear(
         Offset(100, 0),
-        Offset(100, 190),
+        Offset(100, graph.height),
         [
           Color.fromRGBO(192, 214, 255, 1),
           Colors.white,

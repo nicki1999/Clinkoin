@@ -1,3 +1,4 @@
+import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/screens/create_profile.dart';
 import 'package:clinkoin/screens/feedback.dart';
 import 'package:clinkoin/screens/first_time_home_page_wait_for_overlay.dart';
@@ -17,6 +18,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   //sliding animation
+
   static Route createRoute(final navigateTo) {
     return PageRouteBuilder(
       transitionDuration: Duration(milliseconds: 500),
@@ -41,34 +43,46 @@ class MyApp extends StatelessWidget {
   static final eighteen = 18.0;
   static final fourTeen = 14.0;
   static final twelve = 12.0;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'IRANSans',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              body1: TextStyle(
-                fontFamily: 'IRANSans',
-                fontSize: 16,
-              ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: AuthProvider(),
+        ),
+      ],
+      child: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
+          return MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'IRANSans',
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    body1: TextStyle(
+                      fontFamily: 'IRANSans',
+                      fontSize: 16,
+                    ),
+                  ),
             ),
+            home: FirstViewUserTutorial(),
+            routes: {
+              ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
+              FeedBack.routeName: (ctx) => FeedBack(),
+              PredictedUndo.routeName: (ctx) => PredictedUndo(),
+              HomePage.routeName: (ctx) => HomePage(),
+              CreateProfile.routeName: (ctx) => CreateProfile(),
+              SignUp.routeName: (ctx) => SignUp(),
+              FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>
+                  FirstTimeHomePageWaitForOverlay(),
+              FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
+              WalletNotLogin.routeName: (ctx) => WalletNotLogin(),
+              FirstViewUserTutorialPredicted.routeName: (ctx) =>
+                  FirstViewUserTutorialPredicted(),
+            },
+          );
+        },
       ),
-      home: ForcastBitcoin(),
-      routes: {
-        ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
-        FeedBack.routeName: (ctx) => FeedBack(),
-        PredictedUndo.routeName: (ctx) => PredictedUndo(),
-        HomePage.routeName: (ctx) => HomePage(),
-        CreateProfile.routeName: (ctx) => CreateProfile(),
-        SignUp.routeName: (ctx) => SignUp(),
-        FirstTimeHomePageWaitForOverlay.routeName: (ctx) =>
-            FirstTimeHomePageWaitForOverlay(),
-        FirstViewUserTutorial.routeName: (ctx) => FirstViewUserTutorial(),
-        WalletNotLogin.routeName: (ctx) => WalletNotLogin(),
-        FirstViewUserTutorialPredicted.routeName: (ctx) =>
-            FirstViewUserTutorialPredicted(),
-      },
     );
   }
 }

@@ -212,7 +212,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                     ),
                   ),
                   SizedBox(
-                      height: (MediaQuery.of(context).size.height * .12) - 62),
+                      height: (MediaQuery.of(context).size.height * .09) - 62),
                   FittedBox(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 5),
