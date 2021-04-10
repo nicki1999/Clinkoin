@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clinkoin/data/datasource/auth_google_data_source.dart';
 import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/main.dart';
 import 'package:clinkoin/models/feature.dart';
@@ -20,6 +21,8 @@ class FirstViewUserTutorial extends StatefulWidget {
   _FirstViewUserTutorialState createState() => _FirstViewUserTutorialState();
 }
 
+AuthGoogleDataSource authGoogleDataSource = AuthGoogleDataSource();
+
 class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
   List<bool> checkButton = [true, false, false, false];
   void fCheckButton(int num) {
@@ -37,16 +40,29 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
   var duration;
   StreamController errorController;
 
-  @override
-  void didChangeDependencies() {
+  // Future testSignIn() async {
+  // }
+
+  Future signInTest() async {
     try {
-      Provider.of(context)<AuthProvider>(context, listen: false)
-          .getToken('1234');
+      final result = await authGoogleDataSource.signIn();
+      print(result);
     } catch (error) {
       print(error);
     }
-    super.didChangeDependencies();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   try {
+  //     Provider.of(context)<AuthProvider>(context, listen: false)
+  //         .getToken('1234');
+  //   } catch (error) {
+  //     print(error);
+  //   }
+
+  //   super.didChangeDependencies();
+  // }
 
   @override
   void initState() {
@@ -229,6 +245,7 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                       TextButton(
                         onPressed: () {
                           fCheckButton(0);
+                          signInTest();
                         },
                         child: Text(
                           '1H',

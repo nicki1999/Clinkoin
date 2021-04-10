@@ -34,6 +34,7 @@ class AuthProvider with ChangeNotifier {
       var response =
           await api_instance.apiV1AuthIdentificationDeviceGet(deviceId);
       // var responseData = json.decode(response);
+
       // print(response);
       notifyListeners();
     } on ApiException catch (e) {
