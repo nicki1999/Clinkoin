@@ -1,4 +1,4 @@
-package com.zohrefactory.clinkoin
+package com.clinkoin
 
 import io.flutter.embedding.android.FlutterActivity
 
