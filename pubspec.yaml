@@ -33,7 +33,7 @@ dependencies:
   http: ^0.13.1
   intl: ^0.17.0
   flutter_appauth: ^1.0.0
-
+  device_info: ^2.0.0
 
 
 

@@ -1,3 +1,4 @@
+import 'package:clinkoin/data/datasource/auth_google_data_source.dart';
 import 'package:clinkoin/main.dart';
 import 'package:clinkoin/screens/create_profile.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,19 @@ class SignUp extends StatefulWidget {
   static final routeName = '/SignUp';
   @override
   _SignUpState createState() => _SignUpState();
+}
+
+AuthGoogleDataSource authGoogleDataSource = AuthGoogleDataSource();
+Future signInTest(BuildContext context) async {
+  try {
+    final result = await authGoogleDataSource.signIn();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      CreateProfile.routeName,
+      ModalRoute.withName(CreateProfile.routeName),
+    );
+  } catch (error) {
+    print(error);
+  }
 }
 
 class _SignUpState extends State<SignUp> {
@@ -118,10 +132,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            CreateProfile.routeName,
-                            ModalRoute.withName(CreateProfile.routeName),
-                          );
+                          signInTest(context);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

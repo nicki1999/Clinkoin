@@ -21,8 +21,6 @@ class FirstViewUserTutorial extends StatefulWidget {
   _FirstViewUserTutorialState createState() => _FirstViewUserTutorialState();
 }
 
-AuthGoogleDataSource authGoogleDataSource = AuthGoogleDataSource();
-
 class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
   List<bool> checkButton = [true, false, false, false];
   void fCheckButton(int num) {
@@ -42,15 +40,6 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
 
   // Future testSignIn() async {
   // }
-
-  Future signInTest() async {
-    try {
-      final result = await authGoogleDataSource.signIn();
-      print(result);
-    } catch (error) {
-      print(error);
-    }
-  }
 
   // @override
   // void didChangeDependencies() {
@@ -245,7 +234,6 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                       TextButton(
                         onPressed: () {
                           fCheckButton(0);
-                          signInTest();
                         },
                         child: Text(
                           '1H',

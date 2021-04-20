@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
             ),
-            home: FirstViewUserTutorial(),
+            home: ForcastBitcoin(),
             routes: {
               ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
               FeedBack.routeName: (ctx) => FeedBack(),
