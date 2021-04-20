@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'first_view_user_tutorial.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
