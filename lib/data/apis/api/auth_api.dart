@@ -14,33 +14,23 @@ class AuthApi {
 
   final ApiClient apiClient;
 
-  /// Returns user data and user jwt
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
+  /// Performs an HTTP 'POST /auth/identification/device/new' operation and returns the [Response].
   /// Parameters:
   ///
-  /// * [String] deviceId (required):
-  Future<Response> apiV1AuthIdentificationDeviceGetWithHttpInfo(
-      String deviceId) async {
+  /// * [Device] device:
+  Future<Response> authIdentificationDeviceNewPostWithHttpInfo(
+      {Device device}) async {
     // Verify required params are set.
-    if (deviceId == null) {
-      throw ApiException(
-          HttpStatus.badRequest, 'Missing required param: deviceId');
-    }
 
-    final path = r'/api/v1/auth/identification/device';
+    final path = r'/auth/identification/device/new';
 
-    Object postBody;
+    Object postBody = device;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    queryParams.addAll(
-        _convertParametersForCollectionFormat('', 'device_id', deviceId));
-
-    final contentTypes = <String>[];
+    final contentTypes = <String>['application/json'];
     final nullableContentType =
         contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
@@ -56,7 +46,7 @@ class AuthApi {
 
     return await apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -66,16 +56,87 @@ class AuthApi {
     );
   }
 
-  /// Returns user data and user jwt
-  ///
   /// Parameters:
   ///
-  /// * [String] deviceId (required):
-  Future<void> apiV1AuthIdentificationDeviceGet(String deviceId) async {
+  /// * [Device] device:
+  Future authIdentificationDeviceNewPost({Device device}) async {
     final response =
-        await apiV1AuthIdentificationDeviceGetWithHttpInfo(deviceId);
+        await authIdentificationDeviceNewPostWithHttpInfo(device: device);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+    } else if (response.body != null &&
+        response.statusCode != HttpStatus.noContent) {
+      return response.body;
+      //apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+    } else {
+      return;
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+  }
+
+  /// Performs an HTTP 'POST /auth/identification/device' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [Device] device:
+  Future<Response> authIdentificationDevicePostWithHttpInfo(
+      {Device device}) async {
+    // Verify required params are set.
+
+    final path = r'/auth/identification/device';
+
+    Object postBody = device;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['application/json'];
+    final nullableContentType =
+        contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null &&
+        nullableContentType.toLowerCase().startsWith('multipart/form-data')) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {}
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [Device] device:
+  Future authIdentificationDevicePost({Device device}) async {
+    final response =
+        await authIdentificationDevicePostWithHttpInfo(device: device);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    else if (response.body != null &&
+        response.statusCode != HttpStatus.noContent) {
+      return response.body;
+      //apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+    } else {
+      return;
+    }
+    //  return Future<User>.value(null);
   }
 }

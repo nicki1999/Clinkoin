@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/screens/create_profile.dart';
 import 'package:clinkoin/screens/feedback.dart';
@@ -9,14 +11,16 @@ import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   //sliding animation
 
   static Route createRoute(final navigateTo) {
@@ -44,7 +48,11 @@ class MyApp extends StatelessWidget {
   static final fourTeen = 14.0;
   static final twelve = 12.0;
 
-  // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -65,7 +73,21 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
             ),
-            home: ForcastBitcoin(),
+            home: FutureBuilder(
+              future: auth.tryAutoLogin(),
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.waiting
+                    ? Scaffold(
+                        body: Center(
+                          child: Text('is loading...'),
+                        ),
+                      )
+                    :
+                    // auth.isFirstTime == false
+                    //     ? FirstTimeHomePageWaitForOverlay()
+                    ForcastBitcoin();
+              },
+            ),
             routes: {
               ForcastBitcoin.routeName: (ctx) => ForcastBitcoin(),
               FeedBack.routeName: (ctx) => FeedBack(),

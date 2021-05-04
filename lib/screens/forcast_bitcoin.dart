@@ -1,13 +1,14 @@
 import 'dart:io';
+import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'first_view_user_tutorial.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
 import 'package:device_info/device_info.dart';
+import 'package:random_string/random_string.dart';
 
 class ForcastBitcoin extends StatefulWidget {
   static final routeName = '/forcast_bitcoin';
@@ -17,29 +18,43 @@ class ForcastBitcoin extends StatefulWidget {
 }
 
 class _ForcastBitcoinState extends State<ForcastBitcoin> {
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   bool _swipe = false;
   bool _changeText = false;
   @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
+  // void initState() {
+  //       // print(
+  //       // 'this is forcast bitcoin ${Provider.of<AuthProvider>(context, listen: false).isFirst}');
+  //   super.initState();
+  //   initPlatformState().then((value) {
+  //     Provider.of<AuthProvider>(context, listen: false)
+  //         .getToken(value, randomString(13));
+  //   });
+  // }
 
-  Future<void> initPlatformState() async {
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    Platform.isAndroid
-        ? print('Running on ${androidInfo.androidId}')
-        : print('Running on ${iosInfo.identifierForVendor}');
-    print('Running on ${androidInfo.androidId}');
-  }
+  // Future initPlatformState() async {
+  //   if (Platform.isAndroid) {
+  //     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  //     //android id is : 4914232522143c1d
+  //     return androidInfo.androidId;
+  //   } else {
+  //     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+  //     return iosInfo.identifierForVendor;
+  //   }
+  //   // print('Running on ${androidInfo.androidId}');
+  // }
 
-  @override
-  void didChangeDependencies() {
-    print(MediaQuery.of(context).size.height);
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   bool auth = Provider.of<AuthProvider>(context, listen: false).isAuth;
+  //   if (auth == false) {
+  //     Provider.of<AuthProvider>(context, listen: false).getToken(
+  //         '0568045604563443er1332223322112we3erd',
+  //         '0568045604563443er1332223322112we3sadl3');
+  //   }
+  //   //print(MediaQuery.of(context).size.height);
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
