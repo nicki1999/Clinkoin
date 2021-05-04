@@ -1,3 +1,4 @@
+import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/main.dart';
 import 'package:clinkoin/models/feature.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
@@ -9,6 +10,7 @@ import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:clinkoin/widgets/win_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import 'feedback.dart';
 
@@ -46,6 +48,9 @@ class _FirstTimeHomePageWaitForOverlayState
 
   @override
   void initState() {
+    Provider.of<AuthProvider>(context, listen: false).firstTime();
+    print(
+        'this is overlay ${Provider.of<AuthProvider>(context, listen: false).isFirstTime}');
     super.initState();
   }
 

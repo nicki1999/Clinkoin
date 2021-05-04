@@ -1,3 +1,4 @@
+import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/models/feature.dart';
 import 'package:clinkoin/screens/feedback.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
@@ -9,6 +10,7 @@ import 'package:clinkoin/widgets/win_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 
@@ -64,6 +66,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
     });
+
     print('this is homepage');
     super.initState();
   }

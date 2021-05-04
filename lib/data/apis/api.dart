@@ -29,6 +29,12 @@ part 'auth/http_bearer_auth.dart';
 
 part 'api/auth_api.dart';
 
+part 'model/device.dart';
+part 'model/device_device.dart';
+part 'model/error.dart';
+part 'model/user.dart';
+
+
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
 final _dateFormatter = DateFormat('yyyy-MM-dd');

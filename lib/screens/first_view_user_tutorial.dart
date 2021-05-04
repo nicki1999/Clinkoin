@@ -82,8 +82,8 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
     timer = CountdownFormatted(
       duration: duration,
       onFinish: () {
-        // Navigator.of(context)
-        //     .pushNamed(FirstTimeHomePageWaitForOverlay.routeName);
+        Navigator.of(context)
+            .pushNamed(FirstTimeHomePageWaitForOverlay.routeName);
       },
       builder: (BuildContext ctx, String remaining) {
         return Text(

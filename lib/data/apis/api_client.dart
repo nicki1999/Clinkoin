@@ -10,7 +10,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://api.clinkoin.com'}) {}
+  ApiClient({this.basePath = 'http://api.clinkoin.com/api/v1'}) {}
 
   final String basePath;
 
@@ -209,6 +209,14 @@ class ApiClient {
           break;
         case 'double':
           return value is double ? value : double.parse('$value');
+        case 'Device':
+          return Device.fromJson(value);
+        case 'DeviceDevice':
+          return DeviceDevice.fromJson(value);
+        case 'Error':
+          return Error.fromJson(value);
+        case 'User':
+          return User.fromJson(value);
         default:
           Match match;
           if (value is List &&
