@@ -1,19 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:async';
+
 import 'package:clinkoin/data/providers/auth_provider.dart';
-import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 import 'first_view_user_tutorial.dart';
-import 'package:device_info/device_info.dart';
-import 'package:random_string/random_string.dart';
 
 class ForcastBitcoin extends StatefulWidget {
   static final routeName = '/forcast_bitcoin';
@@ -26,31 +19,46 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
   bool _swipe = false;
   bool _changeText = false;
 
+  PhoenixSocket _socket;
+  PhoenixChannel _channel;
+  StreamController<Map> _onMessageController = StreamController<Map>();
+
   Stream<Message> message;
   @override
   void didChangeDependencies() async {
     final _token = Provider.of<AuthProvider>(context, listen: false).token;
+    // final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
+    //final tokenv2 = '$_token&vsn=2.0.0';
     //after getting token RIGHT
-    // channel = IOWebSocketChannel.connect(
-    //     'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0');
-    // IO.Socket socket = IO.io(
-    //     'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0');
-    // socket.onConnect((_) {
-    //   print('connect');
-    //   socket.emit('msg', 'test');
-    // });
-    // channel.sink.add(_token);
     //connect socket
-    final socket1 = PhoenixSocket(
-        'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0');
-    await socket1.connect();
+    _socket = PhoenixSocket(
+      'ws://api.clinkoin.com/user_socket/websocket',
+      socketOptions: PhoenixSocketOptions(
+        params: {'token': _token, 'vsn': '2.0.0'},
+      ),
+    )..connect();
 
-    socket1.openStream.listen((event) async {
-      var channel1 = socket1.addChannel(topic: 'price:BTC');
-      var response = await channel1.join().future;
-      print('this is response : $response');
-      message = channel1.messages;
-      print(message);
+    // _socket = PhoenixSocket('ws://echo.websocket.org')
+    //   ..connect().onError((error, stackTrace) {
+    //     print(error);
+    //     print(stackTrace);
+    //   });
+
+    // _socket = PhoenixSocket(
+    //     'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0')
+    //   ..connect();
+    print(_socket.isConnected);
+    _socket.openStream.listen((event) {
+      //user channel
+      //_channel = _socket.addChannel(topic: 'user:$_userId');
+
+      //price:BTC channel
+      _channel = _socket.addChannel(topic: 'price:BTC');
+      _channel.join();
+      _channel.messages.listen((event) {
+        _onMessageController.add(event.payload);
+        print(event);
+      });
     });
     super.didChangeDependencies();
   }
