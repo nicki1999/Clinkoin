@@ -27,16 +27,16 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
   @override
   void didChangeDependencies() async {
     final _token = Provider.of<AuthProvider>(context, listen: false).token;
-    // final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
+    final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
     //final tokenv2 = '$_token&vsn=2.0.0';
     //after getting token RIGHT
     //connect socket
-    _socket = PhoenixSocket(
-      'ws://api.clinkoin.com/user_socket/websocket',
-      socketOptions: PhoenixSocketOptions(
-        params: {'token': _token, 'vsn': '2.0.0'},
-      ),
-    )..connect();
+    // _socket = PhoenixSocket(
+    //   'ws://api.clinkoin.com/user_socket/websocket',
+    //   socketOptions: PhoenixSocketOptions(
+    //     params: {'token': _token, 'vsn': '2.0.0'},
+    //   ),
+    // )..connect();
 
     // _socket = PhoenixSocket('ws://echo.websocket.org')
     //   ..connect().onError((error, stackTrace) {
@@ -44,9 +44,9 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
     //     print(stackTrace);
     //   });
 
-    // _socket = PhoenixSocket(
-    //     'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0')
-    //   ..connect();
+    _socket = PhoenixSocket(
+        'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0')
+      ..connect();
     print(_socket.isConnected);
     _socket.openStream.listen((event) {
       //user channel
