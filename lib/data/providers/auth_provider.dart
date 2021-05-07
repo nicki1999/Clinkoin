@@ -67,6 +67,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> signUpp(String deviceId, String password) async {
+    print('deviceId $deviceId');
+    print('password $password');
     var api_instance = AuthApi();
     var credentials = openApi.DeviceDevice(
         deviceId: deviceId, password: password, passwordConfirmation: password);
