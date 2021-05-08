@@ -45,9 +45,10 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
     //   });
 
     _socket = PhoenixSocket(
-        'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0')
-      ..connect();
+        'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0');
+    await _socket.connect();
     print(_socket.isConnected);
+
     _socket.openStream.listen((event) {
       //user channel
       //_channel = _socket.addChannel(topic: 'user:$_userId');
