@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:clinkoin/data/providers/auth_provider.dart';
+import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
 import 'first_view_user_tutorial.dart';
@@ -20,46 +23,86 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
   bool _changeText = false;
 
   PhoenixSocket _socket;
-  PhoenixChannel _channel;
+  PhoenixChannel _priceBtcChannel;
+  PhoenixChannel _userChannel;
   StreamController<Map> _onMessageController = StreamController<Map>();
-
+  PhoenixChannelEvent _userLoginRewardReport_event =
+      PhoenixChannelEvent.custom('user:login:reward_report');
+  PhoenixChannelEvent _phxReply_event = PhoenixChannelEvent.custom('phx_reply');
+  PhoenixChannelEvent _chan_reply_2_event =
+      PhoenixChannelEvent.custom('chan_reply_2');
+  PhoenixChannelEvent _priceBtc_event =
+      PhoenixChannelEvent.custom('price:btc_one_hour');
+  PhoenixChannelEvent _test = PhoenixChannelEvent.custom('user:update');
   Stream<Message> message;
   @override
   void didChangeDependencies() async {
     final _token = Provider.of<AuthProvider>(context, listen: false).token;
     final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
-    //final tokenv2 = '$_token&vsn=2.0.0';
-    //after getting token RIGHT
+    //after getting token and userId RIGHT
     //connect socket
-    // _socket = PhoenixSocket(
-    //   'ws://api.clinkoin.com/user_socket/websocket',
-    //   socketOptions: PhoenixSocketOptions(
-    //     params: {'token': _token, 'vsn': '2.0.0'},
-    //   ),
-    // )..connect();
-
-    // _socket = PhoenixSocket('ws://echo.websocket.org')
-    //   ..connect().onError((error, stackTrace) {
-    //     print(error);
-    //     print(stackTrace);
-    //   });
-
     _socket = PhoenixSocket(
-        'ws://api.clinkoin.com/user_socket/websocket?token=$_token&vsn=2.0.0');
+      'ws://api.clinkoin.com/user_socket/websocket',
+      socketOptions: PhoenixSocketOptions(
+        params: {'token': _token, 'vsn': '2.0.0'},
+      ),
+    );
     await _socket.connect();
-    print(_socket.isConnected);
+    print('socket is connected ? ${_socket.isConnected}');
 
-    _socket.openStream.listen((event) {
-      //user channel
-      //_channel = _socket.addChannel(topic: 'user:$_userId');
+    //when connection is open subscribe
+    _socket.openStream.listen((event) async {
+      //user and priceBTC join channel
+      _userChannel = _socket.addChannel(topic: 'user:$_userId');
+      _priceBtcChannel = _socket.addChannel(topic: 'price:BTC');
+      _userChannel.join();
+      _priceBtcChannel.join();
 
-      //price:BTC channel
-      _channel = _socket.addChannel(topic: 'price:BTC');
-      _channel.join();
-      _channel.messages.listen((event) {
-        _onMessageController.add(event.payload);
-        print(event);
+      //_priceBtcChannel.pushEvent(_priceBtc_event, {});
+      // await for (var messages in _priceBtcChannel.messages) {
+      //   final event = messages.event;
+      //   print('events are $event');
+      //   //there are 2 events PhoenixChannelEvent(phx_reply) and  PhoenixChannelEvent(chan_reply_4)
+      //   if (event == _priceBtc_event) {
+      //     print('priceBtcEvent is ${messages.payload}');
+      //   }
+      //   print(event);
+      // }]
+      var push = _userChannel.pushEvent(_test, {
+        "name": "nicki",
+        "avatar": "nicki1",
+        "location": "nicki2",
+        "phone": "nicki3",
+        "birthday": "nicki4",
       });
+      final result = await _userChannel.onPushReply(push.replyEvent);
+      print('oh : ${result.payload}');
+      await for (var messages in _userChannel.messages) {
+        final event = messages.event;
+        print(event);
+        //search user:login:reward_report event
+        if (event == _userLoginRewardReport_event) {
+          print('user:login:reward:report : ${messages}');
+        }
+        //search phx_reply
+        if (event == _phxReply_event) {
+          //    print('phx_reply : ${messages}');
+        }
+        //search phx_reply_2
+        if (event == _chan_reply_2_event) {
+          //  print('phx_reply_2 : ${messages}');
+        }
+      }
+
+      // _userChannel.messages.listen((event) {
+      // });
+      //price:BTC channel
+      // _channel = _socket.addChannel(topic: 'price:BTC');
+      // _channel.join();
+      // _channel.messages.listen((event) {
+      //   _onMessageController.add(event.payload);
+      //   print(event);
+      // });
     });
     super.didChangeDependencies();
   }
@@ -202,7 +245,7 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
               ),
               Text(
-                'Eearn Bitcoin with true predicts.You can earn more by play more.',
+                'Earn Bitcoin with true predicts.You can earn more by play more.',
                 textAlign: TextAlign.center,
               ),
               Row(
@@ -337,112 +380,111 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
     );
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 245, 253, 1),
-      body:
-          // SafeArea(
-          //   child: Builder(
-          //     builder: (context) {
-          //       final double height = MediaQuery.of(context).size.height;
-          //       return Column(
-          //         children: [
-          //           Container(
-          //               padding: EdgeInsets.only(
-          //                 top: MediaQuery.of(context).size.height < 580 ? 40 : 64,
-          //               ),
-          //               height: MediaQuery.of(context).size.height < 580
-          //                   ? (MediaQuery.of(context).size.height * 1) - 126
-          //                   : (MediaQuery.of(context).size.height * 1) - 146,
-          //               child: new Swiper(
-          //                 onIndexChanged: (value) {
-          //                   setState(() {
-          //                     value == 2 ? _changeText = true : _changeText = false;
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            final double height = MediaQuery.of(context).size.height;
+            return Column(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height < 580 ? 40 : 64,
+                    ),
+                    height: MediaQuery.of(context).size.height < 580
+                        ? (MediaQuery.of(context).size.height * 1) - 126
+                        : (MediaQuery.of(context).size.height * 1) - 146,
+                    child: new Swiper(
+                      onIndexChanged: (value) {
+                        setState(() {
+                          value == 2 ? _changeText = true : _changeText = false;
 
-          //                     _swipe = false;
-          //                   });
-          //                 },
-          //                 itemBuilder: (BuildContext context, int index) {
-          //                   return index == 0
-          //                       ? _forecastBitcoin
-          //                       : index == 1
-          //                           ? _winsatoshiRiskFree
-          //                           : index == 2
-          //                               ? _wallet
-          //                               : null;
-          //                 },
-          //                 itemCount: 3,
-          //                 viewportFraction: .8,
-          //                 scale: 1,
-          //                 loop: false,
-          //                 control: new SwiperControl(
-          //                   //lastSlide: _changeText,
-          //                   goesNext: _swipe,
-          //                   iconNext: null,
-          //                   iconPrevious: null,
-          //                 ),
-          //                 duration: 500,
-          //               )
-          //               // Swiper(
-          //               //   onIndexChanged: (value) {
-          //               //     setState(() {
-          //               //       value == 2 ? _changeText = true : _changeText = false;
+                          _swipe = false;
+                        });
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return index == 0
+                            ? _forecastBitcoin
+                            : index == 1
+                                ? _winsatoshiRiskFree
+                                : index == 2
+                                    ? _wallet
+                                    : null;
+                      },
+                      itemCount: 3,
+                      viewportFraction: .8,
+                      scale: 1,
+                      loop: false,
+                      control: new SwiperControl(
+                        //lastSlide: _changeText,
+                        goesNext: _swipe,
+                        iconNext: null,
+                        iconPrevious: null,
+                      ),
+                      duration: 500,
+                    )
+                    // Swiper(
+                    //   onIndexChanged: (value) {
+                    //     setState(() {
+                    //       value == 2 ? _changeText = true : _changeText = false;
 
-          //               //       _swipe = false;
-          //               //     });
-          //               //   },
-          //               //   itemBuilder: (BuildContext context, int index) {
-          //               //     // print(_swipe);
+                    //       _swipe = false;
+                    //     });
+                    //   },
+                    //   itemBuilder: (BuildContext context, int index) {
+                    //     // print(_swipe);
 
-          //               //     return index == 0
-          //               //         ? _forecastBitcoin
-          //               //         : index == 1
-          //               //             ? _winsatoshiRiskFree
-          //               //             : index == 2
-          //               //                 ? _wallet
-          //               //                 : null;
-          //               //   },
-          //               //   loop: false,
-          //               //   itemCount: 3,
-          //               //   control: new SwiperControl(
-          //               //     //lastSlide: _changeText,
-          //               //     goesNext: _swipe,
-          //               //     iconNext: null,
-          //               //     iconPrevious: null,
-          //               //   ),
-          //               //   duration: 500,
-          //               //   scale: 0.7,
-          //               //   viewportFraction: 0.8,
-          //               // ),
-          //               ),
-          //           Expanded(
-          //             child: Align(
-          //               alignment: Alignment.bottomCenter,
-          //               child: SharedLongButton(
-          //                 button: _changeScreen,
-          //                 buttonText:
-          //                     _changeText ? 'Lets try your first Predict' : 'Next',
-          //               ),
-          //             ),
-          //           ),
-          //           SizedBox(
-          //             height: 24,
-          //           ),
-          //         ],
-          //       );
-          //     },
-          //   ),
-          // ),
-          StreamBuilder(
-        stream: message,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? Center(
-                  child: Text(
-                    '$snapshot',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+                    //     return index == 0
+                    //         ? _forecastBitcoin
+                    //         : index == 1
+                    //             ? _winsatoshiRiskFree
+                    //             : index == 2
+                    //                 ? _wallet
+                    //                 : null;
+                    //   },
+                    //   loop: false,
+                    //   itemCount: 3,
+                    //   control: new SwiperControl(
+                    //     //lastSlide: _changeText,
+                    //     goesNext: _swipe,
+                    //     iconNext: null,
+                    //     iconPrevious: null,
+                    //   ),
+                    //   duration: 500,
+                    //   scale: 0.7,
+                    //   viewportFraction: 0.8,
+                    // ),
+                    ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SharedLongButton(
+                      button: _changeScreen,
+                      buttonText:
+                          _changeText ? 'Lets try your first Predict' : 'Next',
+                    ),
                   ),
-                )
-              : Center(child: Text('no data'));
-        },
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+              ],
+            );
+          },
+        ),
       ),
+      //     StreamBuilder(
+      //   stream: message,
+      //   builder: (context, snapshot) {
+      //     return snapshot.hasData
+      //         ? Center(
+      //             child: Text(
+      //               '$snapshot',
+      //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+      //             ),
+      //           )
+      //         : Center(child: Text('no data'));
+      //   },
+      // ),
     );
   }
 }

@@ -77,9 +77,11 @@ flutter:
     - assets/images/alien.svg
     - assets/images/dialog-close.svg
     - assets/images/question-icon.svg
-    - assets/images/cup.png
+    - assets/images/cup.svg
     - assets/images/google.svg
+    - assets/images/cup.png
     - assets/images/alien-no-money.svg
+    - assets/images/feedback.svg
     - assets/images/sad-alien.svg
     - assets/images/Headphone.svg
     - assets/images/profile.svg
