@@ -1,3 +1,4 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/main.dart';
 import 'package:clinkoin/models/feature.dart';
@@ -8,6 +9,7 @@ import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:clinkoin/widgets/lose_message.dart';
 import 'package:clinkoin/widgets/shared_long_button.dart';
 import 'package:clinkoin/widgets/win_message.dart';
+import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,8 @@ class FirstTimeHomePageWaitForOverlay extends StatefulWidget {
       _FirstTimeHomePageWaitForOverlayState();
 }
 
+final bool _isPredicting = false;
+
 class _FirstTimeHomePageWaitForOverlayState
     extends State<FirstTimeHomePageWaitForOverlay> {
   static final routeName = '/FirstTimeHomePageWaitForOverlay';
@@ -35,6 +39,74 @@ class _FirstTimeHomePageWaitForOverlayState
     });
   }
 
+  double _opacity = 1.0;
+  double _fadeIn = 0.0;
+  bool _animateScreen = false;
+  int _fadeTimer = 400;
+  CountdownFormatted timer;
+
+  GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
+  CountDownController _controller = CountDownController();
+  int _duration = 3;
+
+  _buildSnackBar() {
+    key.currentState.showSnackBar(new SnackBar(
+      onVisible: () => _controller.start(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      backgroundColor: Colors.black,
+      duration: Duration(seconds: 3),
+      content: Row(
+        children: [
+          CircularCountDownTimer(
+            duration: _duration,
+            initialDuration: 0,
+            controller: _controller,
+            width: 25,
+            height: 25,
+            ringColor: Color.fromRGBO(41, 114, 255, 1),
+            ringGradient: null,
+            fillColor: Colors.white,
+            fillGradient: null,
+            backgroundColor: Colors.black,
+            backgroundGradient: null,
+            strokeWidth: 2.0,
+            strokeCap: StrokeCap.round,
+            textStyle: TextStyle(
+                fontSize: MyApp.twelve,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+            textFormat: CountdownTextFormat.S,
+            isReverse: true,
+            isReverseAnimation: false,
+            isTimerTextShown: true,
+            autoStart: false,
+            onStart: () {},
+            onComplete: () {},
+          ),
+          SizedBox(
+            width: 13,
+          ),
+          new Text("You Choosed",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: MyApp.twelve)),
+        ],
+      ),
+      behavior: SnackBarBehavior.floating,
+      action: SnackBarAction(
+        label: 'Undo',
+        textColor: Color.fromRGBO(41, 114, 255, 1),
+        onPressed: () {
+          setState(() {
+            _opacity = 1.0;
+            _fadeIn = 0.0;
+          });
+        },
+      ),
+    ));
+  }
+
   final List<Feature> features = [
     Feature(
       color: LinearGradient(
@@ -45,10 +117,15 @@ class _FirstTimeHomePageWaitForOverlayState
       data: [0.2, 0.8, 0.4, 0.7, 0.6],
     ),
   ];
-
+  var duration;
+  var seconds = 4;
+  var minutes = 0;
+  var hours = 0;
   @override
   void initState() {
     Provider.of<AuthProvider>(context, listen: false).firstTime();
+    duration = new Duration(hours: hours, seconds: seconds, minutes: minutes);
+
     print(
         'this is overlay ${Provider.of<AuthProvider>(context, listen: false).isFirstTime}');
     super.initState();
@@ -176,7 +253,23 @@ class _FirstTimeHomePageWaitForOverlayState
 
   @override
   Widget build(BuildContext context) {
+    timer = CountdownFormatted(
+      duration: duration,
+      onFinish: () {
+        setState(() {
+          _opacity = 1.0;
+          _fadeIn = 0.0;
+        });
+      },
+      builder: (BuildContext ctx, String remaining) {
+        return Text(
+          '(ends in ${hours == 0 && minutes == 0 ? '00:00:$remaining' : hours == 0 ? '00:$remaining' : remaining})',
+          style: TextStyle(fontSize: MyApp.fourTeen),
+        ); // 01:00:00
+      },
+    );
     return Scaffold(
+      key: key,
       backgroundColor: Color.fromRGBO(245, 245, 253, 1),
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -216,7 +309,7 @@ class _FirstTimeHomePageWaitForOverlayState
                     ),
                   ),
                   InkWell(
-                    child: SvgPicture.asset('assets/images/sad-alien.svg'),
+                    child: SvgPicture.asset('assets/images/feedback.svg'),
                     onTap: () =>
                         Navigator.of(context).pushNamed(FeedBack.routeName),
                   ),
@@ -269,46 +362,68 @@ class _FirstTimeHomePageWaitForOverlayState
                       SizedBox(
                         height: 4,
                       ),
-                      Text(
-                        '(Predict for next 30 Second)',
-                        style: TextStyle(
-                          fontSize: MyApp.fourTeen,
+                      AnimatedOpacity(
+                        opacity: _opacity,
+                        //curve: Curves.easeOut,
+                        duration: Duration(milliseconds: _fadeTimer),
+                        child: Text(
+                          '(Predict for next 30 Second)',
+                          style: TextStyle(
+                            fontSize: MyApp.fourTeen,
+                          ),
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * .03,
+                        height: _opacity == 0
+                            ? 0
+                            : MediaQuery.of(context).size.height * .03,
                       ),
-                      Text(
-                        '\$ 24,472.971',
-                        style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
+                      _opacity == 1
+                          ? AnimatedOpacity(
+                              opacity: _opacity,
+                              duration: Duration(milliseconds: _fadeTimer),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '\$ 24,472.971',
+                                    style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '+4.77%',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(41, 162, 135, 1),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text(
+                                        '24 Hours',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                114, 118, 129, 1),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
                       SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '+4.77%',
-                            style: TextStyle(
-                                color: Color.fromRGBO(41, 162, 135, 1),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            '24 Hours',
-                            style: TextStyle(
-                                color: Color.fromRGBO(114, 118, 129, 1),
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .033,
-                      ),
+                        height: _opacity == 0
+                            ? (MediaQuery.of(context).size.height * .09) - 62
+                            : MediaQuery.of(context).size.height * .033,
+                      )
                     ],
                   ),
 
@@ -470,87 +585,234 @@ class _FirstTimeHomePageWaitForOverlayState
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width * .41,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(PredictedUndo.routeName);
-                              },
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Color.fromRGBO(249, 48, 128, 1),
-                                  width: 2,
-                                  style: BorderStyle.solid,
+
+                  _fadeIn == 0.0
+                      ? Container()
+                      : AnimatedOpacity(
+                          opacity: _fadeIn,
+                          duration: Duration(milliseconds: _fadeTimer),
+                          child: Column(
+                            children: [
+                              FittedBox(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          .05,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Price at Forecast',
+                                          style: TextStyle(
+                                              fontSize: MyApp.twelve,
+                                              color: Color.fromRGBO(
+                                                  81, 81, 81, 1)),
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          '\$ 23,472.97',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24,
+                                              color: Color.fromRGBO(
+                                                  81, 81, 81, 1)),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          .05,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Current Price',
+                                          style: TextStyle(
+                                              fontSize: MyApp.twelve,
+                                              color: Color.fromRGBO(
+                                                  81, 81, 81, 1)),
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '\$ 24,472.97',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 24,
+                                                  color: Color.fromRGBO(
+                                                      32, 174, 138, 1)),
+                                            ),
+                                            SizedBox(
+                                              width: 6,
+                                            ),
+                                            Container(
+                                              child: SvgPicture.asset(
+                                                  'assets/images/green-polygon.svg'),
+                                              margin: EdgeInsets.only(top: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          .05,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .12,
+                                    ),
+                                  ],
                                 ),
-                                borderRadius: BorderRadius.circular(5),
                               ),
-                              child: FittedBox(
+                              Text(
+                                'You selected Going Up',
+                                style: TextStyle(fontSize: MyApp.fourTeen),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              FittedBox(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/images/arrow-down.svg'),
+                                        'assets/images/green-tick.png'),
+                                    SizedBox(
+                                      width: 6,
+                                    ),
+                                    Text(
+                                      'You are currently gaining',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MyApp.twelve),
+                                    ),
+                                    SizedBox(
+                                      width: 6,
+                                    ),
+                                    Text('+220 SATOSHI',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(248, 157, 46, 1),
+                                            fontSize: MyApp.twelve,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              timer,
+                            ],
+                          ),
+                        ),
+                  Expanded(
+                    child: AnimatedOpacity(
+                      duration: Duration(
+                        milliseconds: 0,
+                      ),
+                      opacity: _opacity,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width * .41,
+                              child: FlatButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _opacity = 0.0;
+                                    _fadeIn = 1.0;
+                                  });
+                                  // Navigator.of(context)
+                                  //     .pushNamed(PredictedUndo.routeName);
+                                  Future.delayed(const Duration(seconds: 0))
+                                      .then((_) => _buildSnackBar());
+                                },
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Color.fromRGBO(249, 48, 128, 1),
+                                    width: 2,
+                                    style: BorderStyle.solid,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: FittedBox(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images/arrow-down.svg'),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        'Going Down',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(249, 48, 128, 1),
+                                            fontSize: MyApp.fourTeen),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width * .41,
+                              child: FlatButton(
+                                onPressed: () {
+                                  Future.delayed(const Duration(seconds: 0))
+                                      .then((_) => _buildSnackBar());
+                                  setState(() {
+                                    _opacity = 0.0;
+                                    _fadeIn = 1.0;
+                                  });
+                                  // Navigator.of(context)
+                                  //     .pushNamed(PredictedUndo.routeName);
+                                },
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Color.fromRGBO(32, 174, 138, 1),
+                                    width: 2,
+                                    style: BorderStyle.solid,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images/arrow-up.svg'),
                                     SizedBox(
                                       width: 8,
                                     ),
                                     Text(
-                                      'Going Down',
+                                      'Going Up',
                                       style: TextStyle(
                                           color:
-                                              Color.fromRGBO(249, 48, 128, 1),
+                                              Color.fromRGBO(32, 174, 138, 1),
                                           fontSize: MyApp.fourTeen),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width * .41,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(PredictedUndo.routeName);
-                              },
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Color.fromRGBO(32, 174, 138, 1),
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                ),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images/arrow-up.svg'),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    'Going Up',
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(32, 174, 138, 1),
-                                        fontSize: MyApp.fourTeen),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -560,8 +822,14 @@ class _FirstTimeHomePageWaitForOverlayState
                 ],
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
+            AnimatedOpacity(
+              duration: Duration(
+                milliseconds: _fadeTimer,
+              ),
+              opacity: _opacity,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * .01,
+              ),
             ),
             Expanded(
               child: Align(
@@ -601,12 +869,16 @@ class _FirstTimeHomePageWaitForOverlayState
                       ),
                       FittedBox(
                         child: RaisedButton(
+                          disabledElevation: 0,
+                          disabledColor: Color.fromRGBO(226, 226, 226, 1),
                           elevation: 0,
+                          focusElevation: 0,
+                          hoverElevation: 0,
+                          splashColor: Color.fromRGBO(226, 226, 226, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          color: Color.fromRGBO(180, 206, 255, 1),
-                          onPressed: () => null,
+                          onPressed: null,
                           child: Text(
                             'Coming Soon!',
                             style: TextStyle(
