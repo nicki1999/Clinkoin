@@ -82,10 +82,7 @@ class _MyAppState extends State<MyApp> {
                           child: Text('is loading...'),
                         ),
                       )
-                    :
-                    // auth.isFirstTime == false
-                    //     ? FirstTimeHomePageWaitForOverlay()
-                    ForcastBitcoin();
+                    : ForcastBitcoin();
               },
             ),
             routes: {

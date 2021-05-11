@@ -450,7 +450,7 @@ class _PredictedUndoState extends State<PredictedUndo> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/images/green-tick.png'),
+                        SvgPicture.asset('assets/images/green-tick.svg'),
                         SizedBox(
                           width: 6,
                         ),

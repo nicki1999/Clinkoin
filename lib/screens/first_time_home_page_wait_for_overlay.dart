@@ -684,7 +684,7 @@ class _FirstTimeHomePageWaitForOverlayState
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/images/green-tick.png'),
+                                        'assets/images/green-tick.svg'),
                                     SizedBox(
                                       width: 6,
                                     ),
