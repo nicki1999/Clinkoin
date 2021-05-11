@@ -26,14 +26,8 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
   PhoenixChannel _priceBtcChannel;
   PhoenixChannel _userChannel;
   StreamController<Map> _onMessageController = StreamController<Map>();
-  PhoenixChannelEvent _userLoginRewardReport_event =
-      PhoenixChannelEvent.custom('user:login:reward_report');
+
   PhoenixChannelEvent _phxReply_event = PhoenixChannelEvent.custom('phx_reply');
-  PhoenixChannelEvent _chan_reply_2_event =
-      PhoenixChannelEvent.custom('chan_reply_2');
-  PhoenixChannelEvent _priceBtc_event =
-      PhoenixChannelEvent.custom('price:btc_one_hour');
-  PhoenixChannelEvent _test = PhoenixChannelEvent.custom('user:update');
   Stream<Message> message;
   @override
   void didChangeDependencies() async {
@@ -58,39 +52,20 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
       _userChannel.join();
       _priceBtcChannel.join();
 
-      //_priceBtcChannel.pushEvent(_priceBtc_event, {});
-      // await for (var messages in _priceBtcChannel.messages) {
-      //   final event = messages.event;
-      //   print('events are $event');
-      //   //there are 2 events PhoenixChannelEvent(phx_reply) and  PhoenixChannelEvent(chan_reply_4)
-      //   if (event == _priceBtc_event) {
-      //     print('priceBtcEvent is ${messages.payload}');
-      //   }
-      //   print(event);
-      // }]
-      var push = _userChannel.pushEvent(_test, {
-        "name": "nicki",
-        "avatar": "nicki1",
-        "location": "nicki2",
-        "phone": "nicki3",
-        "birthday": "nicki4",
-      });
-      final result = await _userChannel.onPushReply(push.replyEvent);
-      print('oh : ${result.payload}');
+      // _userChannel.push('user:update', {
+      //   "name": "nicki",
+      //   "avatar": "nicki1",
+      //   "location": "nicki2",
+      //   "phone": "nicki3",
+      //   "birthday": "nicki4",
+      // });
+
       await for (var messages in _userChannel.messages) {
-        final event = messages.event;
-        print(event);
-        //search user:login:reward_report event
-        if (event == _userLoginRewardReport_event) {
-          print('user:login:reward:report : ${messages}');
-        }
+        var event = messages.event;
+        //two events phx_reply and user:login:reward_report
         //search phx_reply
         if (event == _phxReply_event) {
-          //    print('phx_reply : ${messages}');
-        }
-        //search phx_reply_2
-        if (event == _chan_reply_2_event) {
-          //  print('phx_reply_2 : ${messages}');
+          print('phx_reply : ${messages.payload}');
         }
       }
 
