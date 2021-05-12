@@ -27,7 +27,8 @@ part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
-part 'api/auth_api.dart';
+part 'api/authentication_api.dart';
+part 'api/client_api.dart';
 
 part 'model/device.dart';
 part 'model/device_device.dart';

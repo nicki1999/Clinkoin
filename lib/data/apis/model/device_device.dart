@@ -13,36 +13,30 @@ class DeviceDevice {
   /// Returns a new [DeviceDevice] instance.
   DeviceDevice({
     @required this.deviceId,
-    @required this.password,
-    @required this.passwordConfirmation,
+    @required this.deviceToken,
   });
 
   String deviceId;
 
-  String password;
-
-  String passwordConfirmation;
+  String deviceToken;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is DeviceDevice &&
      other.deviceId == deviceId &&
-     other.password == password &&
-     other.passwordConfirmation == passwordConfirmation;
+     other.deviceToken == deviceToken;
 
   @override
   int get hashCode =>
     (deviceId == null ? 0 : deviceId.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (passwordConfirmation == null ? 0 : passwordConfirmation.hashCode);
+    (deviceToken == null ? 0 : deviceToken.hashCode);
 
   @override
-  String toString() => 'DeviceDevice[deviceId=$deviceId, password=$password, passwordConfirmation=$passwordConfirmation]';
+  String toString() => 'DeviceDevice[deviceId=$deviceId, deviceToken=$deviceToken]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'device_id'] = deviceId;
-      json[r'password'] = password;
-      json[r'password_confirmation'] = passwordConfirmation;
+      json[r'device_token'] = deviceToken;
     return json;
   }
 
@@ -52,8 +46,7 @@ class DeviceDevice {
     ? null
     : DeviceDevice(
         deviceId: json[r'device_id'],
-        password: json[r'password'],
-        passwordConfirmation: json[r'password_confirmation'],
+        deviceToken: json[r'device_token'],
     );
 
   static List<DeviceDevice> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

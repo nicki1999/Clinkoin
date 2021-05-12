@@ -26,8 +26,11 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
   PhoenixChannel _priceBtcChannel;
   PhoenixChannel _userChannel;
   StreamController<Map> _onMessageController = StreamController<Map>();
-
+  PhoenixChannelEvent _userLoginRewardReport_event =
+      PhoenixChannelEvent.custom('user:login:reward_report');
   PhoenixChannelEvent _phxReply_event = PhoenixChannelEvent.custom('phx_reply');
+  PhoenixChannelEvent _priceBtc_event =
+      PhoenixChannelEvent.custom('price:btc_one_hour');
   Stream<Message> message;
   @override
   void didChangeDependencies() async {
@@ -48,36 +51,38 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
     _socket.openStream.listen((event) async {
       //user and priceBTC join channel
       _userChannel = _socket.addChannel(topic: 'user:$_userId');
-      _priceBtcChannel = _socket.addChannel(topic: 'price:BTC');
       _userChannel.join();
-      _priceBtcChannel.join();
 
-      // _userChannel.push('user:update', {
-      //   "name": "nicki",
-      //   "avatar": "nicki1",
-      //   "location": "nicki2",
-      //   "phone": "nicki3",
-      //   "birthday": "nicki4",
-      // });
-
+      // await for (var messages in _priceBtcChannel.messages) {
+      //   final event = messages.event;
+      //   print('events are $event');
+      //   //there are 2 events PhoenixChannelEvent(phx_reply) and  PhoenixChannelEvent(chan_reply_4)
+      //   if (event == _priceBtc_event) {
+      //     print('priceBtcEvent is ${messages.payload}');
+      //   }
+      //   print(event);
+      // }]
+      var push = _userChannel.push('user:update', {
+        "name": "nicki",
+        "avatar": "nicki1",
+        "location": "nicki2",
+        "phone": "nicki3",
+        "birthday": "nicki4",
+      });
       await for (var messages in _userChannel.messages) {
-        var event = messages.event;
-        //two events phx_reply and user:login:reward_report
+        final event = messages.event;
+        print(event);
+        //search user:login:reward_report event
+        if (event == _userLoginRewardReport_event) {
+          print('user:login:reward:report : ${messages}');
+        }
         //search phx_reply
         if (event == _phxReply_event) {
-          print('phx_reply : ${messages.payload}');
+          print('phx_reply : ${messages}');
         }
-      }
+        //search phx_reply_2
 
-      // _userChannel.messages.listen((event) {
-      // });
-      //price:BTC channel
-      // _channel = _socket.addChannel(topic: 'price:BTC');
-      // _channel.join();
-      // _channel.messages.listen((event) {
-      //   _onMessageController.add(event.payload);
-      //   print(event);
-      // });
+      }
     });
     super.didChangeDependencies();
   }
