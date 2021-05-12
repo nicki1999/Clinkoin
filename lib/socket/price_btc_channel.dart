@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:clinkoin/models/btc_price_channel/momentary_event_model.dart';
@@ -10,8 +11,17 @@ class BTCChannel with ChangeNotifier {
   PhoenixChannelEvent _momentaryPrice =
       PhoenixChannelEvent.custom('price:momentary');
   final String token;
+
+  StreamController _onEventsController = StreamController.broadcast();
+  Stream get onEvents => _onEventsController.stream;
+
   var _price;
   BTCChannel({this.token});
+  StreamSubscription _subscription;
+  StreamController _streamController = StreamController();
+
+  StreamSubscription get subscription => _subscription;
+  StreamController get controller => _streamController;
 
   String get price {
     return _price.toString();
@@ -42,9 +52,8 @@ class BTCChannel with ChangeNotifier {
         if (event == _momentaryPrice) {
           final modeled = MomentaryEventModel.fromJson(messages.payload);
           _price = modeled.price;
-          // print(_price);
-
-          notifyListeners();
+          _onEventsController.add(messages.payload['price']);
+          // notifyListeners();
         }
       }
     });

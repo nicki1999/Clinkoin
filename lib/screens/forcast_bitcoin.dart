@@ -33,59 +33,59 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
       PhoenixChannelEvent.custom('price:btc_one_hour');
   Stream<Message> message;
   @override
-  void didChangeDependencies() async {
-    final _token = Provider.of<AuthProvider>(context, listen: false).token;
-    final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
-    //after getting token and userId RIGHT
-    //connect socket
-    _socket = PhoenixSocket(
-      'ws://api.clinkoin.com/user_socket/websocket',
-      socketOptions: PhoenixSocketOptions(
-        params: {'token': _token, 'vsn': '2.0.0'},
-      ),
-    );
-    await _socket.connect();
-    print('socket is connected ? ${_socket.isConnected}');
+  // void didChangeDependencies() async {
+  //   final _token = Provider.of<AuthProvider>(context, listen: false).token;
+  //   final _userId = Provider.of<AuthProvider>(context, listen: false).userId;
+  //   //after getting token and userId RIGHT
+  //   //connect socket
+  //   _socket = PhoenixSocket(
+  //     'ws://api.clinkoin.com/user_socket/websocket',
+  //     socketOptions: PhoenixSocketOptions(
+  //       params: {'token': _token, 'vsn': '2.0.0'},
+  //     ),
+  //   );
+  //   await _socket.connect();
+  //   print('socket is connected ? ${_socket.isConnected}');
 
-    //when connection is open subscribe
-    _socket.openStream.listen((event) async {
-      //user and priceBTC join channel
-      _userChannel = _socket.addChannel(topic: 'user:$_userId');
-      _userChannel.join();
+  //   //when connection is open subscribe
+  //   _socket.openStream.listen((event) async {
+  //     //user and priceBTC join channel
+  //     _userChannel = _socket.addChannel(topic: 'user:$_userId');
+  //     _userChannel.join();
 
-      // await for (var messages in _priceBtcChannel.messages) {
-      //   final event = messages.event;
-      //   print('events are $event');
-      //   //there are 2 events PhoenixChannelEvent(phx_reply) and  PhoenixChannelEvent(chan_reply_4)
-      //   if (event == _priceBtc_event) {
-      //     print('priceBtcEvent is ${messages.payload}');
-      //   }
-      //   print(event);
-      // }]
-      var push = _userChannel.push('user:update', {
-        "name": "nicki",
-        "avatar": "nicki1",
-        "location": "nicki2",
-        "phone": "nicki3",
-        "birthday": "nicki4",
-      });
-      await for (var messages in _userChannel.messages) {
-        final event = messages.event;
-        print(event);
-        //search user:login:reward_report event
-        if (event == _userLoginRewardReport_event) {
-          print('user:login:reward:report : ${messages}');
-        }
-        //search phx_reply
-        if (event == _phxReply_event) {
-          print('phx_reply : ${messages}');
-        }
-        //search phx_reply_2
+  //     // await for (var messages in _priceBtcChannel.messages) {
+  //     //   final event = messages.event;
+  //     //   print('events are $event');
+  //     //   //there are 2 events PhoenixChannelEvent(phx_reply) and  PhoenixChannelEvent(chan_reply_4)
+  //     //   if (event == _priceBtc_event) {
+  //     //     print('priceBtcEvent is ${messages.payload}');
+  //     //   }
+  //     //   print(event);
+  //     // }]
+  //     var push = _userChannel.push('user:update', {
+  //       "name": "nicki",
+  //       "avatar": "nicki1",
+  //       "location": "nicki2",
+  //       "phone": "nicki3",
+  //       "birthday": "nicki4",
+  //     });
+  //     await for (var messages in _userChannel.messages) {
+  //       final event = messages.event;
+  //       print(event);
+  //       //search user:login:reward_report event
+  //       if (event == _userLoginRewardReport_event) {
+  //         print('user:login:reward:report : ${messages}');
+  //       }
+  //       //search phx_reply
+  //       if (event == _phxReply_event) {
+  //         print('phx_reply : ${messages}');
+  //       }
+  //       //search phx_reply_2
 
-      }
-    });
-    super.didChangeDependencies();
-  }
+  //     }
+  //   });
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
