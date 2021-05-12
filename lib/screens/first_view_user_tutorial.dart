@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:clinkoin/data/datasource/auth_google_data_source.dart';
 import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/main.dart';
+import 'package:clinkoin/models/btc_price_channel/momentary_event_model.dart';
 import 'package:clinkoin/models/feature.dart';
 import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
+import 'package:clinkoin/socket/price_btc_channel.dart';
 import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
 
 import 'first_time_home_page_wait_for_overlay.dart';
@@ -36,27 +39,18 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
   var minutes = 0;
   var hours = 0;
   var duration;
-  StreamController errorController;
-
-  // Future testSignIn() async {
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   try {
-  //     Provider.of(context)<AuthProvider>(context, listen: false)
-  //         .getToken('1234');
-  //   } catch (error) {
-  //     print(error);
-  //   }
-
-  //   super.didChangeDependencies();
-  // }
 
   @override
+  void didChangeDependencies() async {
+    // await btcChannel.momentaryPrice();
+    super.didChangeDependencies();
+  }
+
+  String _token;
+  @override
   void initState() {
+    // _token = Provider.of<AuthProvider>(context, listen: false).token;
     duration = new Duration(hours: hours, seconds: seconds, minutes: minutes);
-    errorController = StreamController();
     super.initState();
   }
 
@@ -158,10 +152,20 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                         children: [
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              '\$ 24,472.971',
-                              style: TextStyle(
-                                  fontSize: 28, fontWeight: FontWeight.bold),
+                            child: Consumer<BTCChannel>(
+                              builder: (context, btc, _) {
+                                return FutureBuilder(
+                                  future: btc.momentaryPrice(),
+                                  builder: (context, snapshot) {
+                                    return Text(
+                                      '\$ ${btc.price}',
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                           SizedBox(

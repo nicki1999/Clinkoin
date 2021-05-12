@@ -11,6 +11,7 @@ import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
+import 'package:clinkoin/socket/price_btc_channel.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +61,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(
           value: AuthProvider(),
         ),
+        ChangeNotifierProxyProvider<AuthProvider, BTCChannel>(
+            create: (context) => null,
+            update: (context, auth, btc) {
+              return BTCChannel(token: auth.token);
+            }),
       ],
       child: Consumer<AuthProvider>(
         builder: (context, auth, _) {
@@ -82,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                           child: Text('is loading...'),
                         ),
                       )
-                    : ForcastBitcoin();
+                    : FirstViewUserTutorial();
               },
             ),
             routes: {

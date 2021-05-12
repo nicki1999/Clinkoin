@@ -5,6 +5,7 @@ import 'package:device_info/device_info.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 import '../apis/api.dart' as openApi;
 import 'package:clinkoin/data/apis/api.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class AuthProvider with ChangeNotifier {
   Timer _authTimer;
   bool _firstTime;
   String _deviceId;
-  String _password;
+  String _deviceToken;
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
   bool get isAuth {
@@ -66,12 +67,13 @@ class AuthProvider with ChangeNotifier {
     _authTimer = Timer(Duration(seconds: timeToExpiry), _logout);
   }
 
-  Future<void> signUpp(String deviceId, String password) async {
+  Future<void> signUpp(String deviceId, String deviceToken) async {
+    var api_instance = openApi.AuthenticationApi();
+
     print('deviceId $deviceId');
-    print('password $password');
-    var api_instance = AuthApi();
-    var credentials = openApi.DeviceDevice(
-        deviceId: deviceId, password: password, passwordConfirmation: password);
+    print('deviceToken $deviceToken');
+    var credentials =
+        openApi.DeviceDevice(deviceId: deviceId, deviceToken: deviceToken);
     var device = openApi.Device(device: credentials);
     try {
       var response =
@@ -96,10 +98,10 @@ class AuthProvider with ChangeNotifier {
       final userData = json.encode({
         'token': _token,
         'expiryDate': _expiryDate.toIso8601String(),
-        'userId': _userId
+        'userId': _userId,
       });
       final credentials =
-          json.encode({'password': password, 'deviceId': deviceId});
+          json.encode({'deviceToken': deviceToken, 'deviceId': deviceId});
 
       prefs.setString('userData', userData);
       prefs.setString('credentials', credentials);
@@ -117,15 +119,15 @@ class AuthProvider with ChangeNotifier {
     final extractedData =
         json.decode(prefs.getString('credentials')) as Map<String, Object>;
 
-    _password = extractedData['password'];
+    _deviceToken = extractedData['deviceToken'];
     _deviceId = extractedData['deviceId'];
 
-    var api_instance = AuthApi();
+    var api_instance = openApi.AuthenticationApi();
 
     final credentials = openApi.DeviceDevice(
-        deviceId: _deviceId,
-        password: _password,
-        passwordConfirmation: _password);
+      deviceId: _deviceId,
+      deviceToken: _deviceToken,
+    );
     var device = openApi.Device(device: credentials);
     try {
       var response =
@@ -160,18 +162,9 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future initPlatformState() async {
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      _password = randomString(13);
-      //android id is : 4914232522143c1d
-      _deviceId = androidInfo.androidId;
-    } else {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      _deviceId = iosInfo.identifierForVendor;
-      _password = randomString(13);
-    }
-    // print('Running on ${androidInfo.androidId}');
+  void setCredentials() {
+    _deviceToken = randomString(15);
+    _deviceId = Uuid().v1();
   }
 
   Future tryAutoLogin() async {
@@ -180,8 +173,8 @@ class AuthProvider with ChangeNotifier {
     //for the first time there is no userData or credentials in sharedpref
     if (!prefs.containsKey('userData') && !prefs.containsKey('credentials')) {
       print('signUp');
-      await initPlatformState();
-      signUpp(_deviceId, _password);
+      setCredentials();
+      await signUpp(_deviceId, _deviceToken);
     }
     //wanna sign in
     else if (!prefs.containsKey('userData') &&

@@ -7,10 +7,10 @@
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: lines_longer_than_80_chars
 
-// tests for User
 import 'package:clinkoin/data/apis/api.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// tests for User
 void main() {
   final instance = User();
 
