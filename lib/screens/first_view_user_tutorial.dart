@@ -42,6 +42,8 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
 
   @override
   void didChangeDependencies() async {
+    // BTCChannel btcChannel = BTCChannel(
+    //     token: Provider.of<AuthProvider>(context, listen: false).token);
     // await btcChannel.momentaryPrice();
     super.didChangeDependencies();
   }
@@ -151,23 +153,40 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            child: Consumer<BTCChannel>(
-                              builder: (context, btc, _) {
-                                return FutureBuilder(
-                                  future: btc.momentaryPrice(),
-                                  builder: (context, snapshot) {
-                                    return Text(
-                                      '\$ ${btc.price}',
-                                      style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: Consumer<BTCChannel>(
+                                builder: (context, btc, _) {
+                                  return FutureBuilder(
+                                    future: btc.momentaryPrice(),
+                                    builder: (context, snapshot) {
+                                      return StreamBuilder(
+                                          stream: btc.onEvents,
+                                          builder: (context, snapshot) =>
+                                              snapshot.hasData
+                                                  ? Text(
+                                                      '\$ ${snapshot.data}',
+                                                      style: TextStyle(
+                                                          fontSize: 28,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  : Text(
+                                                      'no data available',
+                                                      style: TextStyle(
+                                                          fontSize: 28,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ));
+                                      //  Text(
+                                      //   '\$ ${btc.price}',
+                                      //   style: TextStyle(
+                                      //       fontSize: 28,
+                                      //       fontWeight: FontWeight.bold),
+                                      // );
+                                    },
+                                  );
+                                },
+                              )),
                           SizedBox(
                             height: 8,
                           ),
