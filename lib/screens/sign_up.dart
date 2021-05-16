@@ -13,7 +13,7 @@ class SignUp extends StatefulWidget {
 AuthGoogleDataSource authGoogleDataSource = AuthGoogleDataSource();
 Future signInTest(BuildContext context) async {
   try {
-    final result = await authGoogleDataSource.signIn();
+    await authGoogleDataSource.signIn();
     Navigator.of(context).pushNamedAndRemoveUntil(
       CreateProfile.routeName,
       ModalRoute.withName(CreateProfile.routeName),

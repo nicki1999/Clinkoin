@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -19,6 +20,27 @@ class AuthProvider with ChangeNotifier {
   String _deviceId;
   String _deviceToken;
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  PhoenixSocket _socket;
+  PhoenixChannel _priceBtcChannel;
+  PhoenixChannel _userChannel;
+  PhoenixChannelEvent _momentaryPriceEvent =
+      PhoenixChannelEvent.custom('price:momentary');
+  PhoenixChannelEvent _getQuestion = PhoenixChannelEvent.custom('chan_reply_5');
+  PhoenixChannelEvent _hourlyPriceEvent =
+      PhoenixChannelEvent.custom('price:btc_one_hour');
+  PhoenixChannelEvent _getUserEvent = PhoenixChannelEvent.custom('phx_reply');
+  StreamController _onEventMomentaryPrice = StreamController.broadcast();
+  StreamController _getUser = StreamController.broadcast();
+  StreamController<List> _onEventHourlyPrice = StreamController.broadcast();
+
+  Stream get onEventsMomentaryPrice => _onEventMomentaryPrice.stream;
+  Stream get onEventsHourlyPrice => _onEventHourlyPrice.stream;
+  Stream get onEventsGetUser => _getUser.stream;
+  var _price;
+
+  String get price {
+    return _price.toString();
+  }
 
   bool get isAuth {
     return _token != null;
@@ -196,5 +218,77 @@ class AuthProvider with ChangeNotifier {
       _autoLogout();
       //  notifyListeners();
     }
+    socketConnection();
+    _socket.openStream.listen((event) async {
+      _userChannel = _socket.addChannel(topic: 'user:$userId');
+      _userChannel.join();
+      await for (var messages in _userChannel.messages) {
+        final event = messages.event;
+        if (event == _getUserEvent) {
+          //gets user data
+          _getUser.add(
+              messages.payload['response']['data']['all_predictions_count']);
+        }
+      }
+      _socket.close();
+      _socket.dispose();
+    });
+  }
+
+  Future<void> socketConnection() async {
+    _socket = PhoenixSocket(
+      'ws://api.clinkoin.com/user_socket/websocket',
+      socketOptions: PhoenixSocketOptions(
+        params: {'token': token, 'vsn': '2.0.0'},
+      ),
+    );
+
+    _socket = await _socket.connect();
+    print(token);
+    print('socket is connected ? ${_socket.isConnected}');
+  }
+
+  Future priceChannel() async {
+    _socket.openStream.listen((event) async {
+      _priceBtcChannel = _socket.addChannel(topic: 'price:BTC');
+      _priceBtcChannel.join();
+
+      await for (var messages in _priceBtcChannel.messages) {
+        final event = messages.event;
+        //print('events are $event');
+        if (event == _momentaryPriceEvent) {
+          //every second
+          _onEventMomentaryPrice.add(messages.payload['price']);
+        }
+        if (event == _hourlyPriceEvent) {
+          _onEventHourlyPrice.add(messages.payload['close_prices']);
+        }
+      }
+    });
+  }
+
+  Future getUserQuestion() async {
+    socketConnection();
+    _socket.openStream.listen((event) async {
+      _userChannel.push('user:get:question', {});
+      await for (var messages in _userChannel.messages) {
+        if (messages.event == _getQuestion) {
+          print('messages are $messages');
+        }
+      }
+    });
+  }
+
+  Future userChannel() async {
+    _socket.openStream.listen((event) async {
+      await for (var messages in _userChannel.messages) {
+        final event = messages.event;
+        // if (event == _getUserEvent) {
+        //   print(messages);
+        //   //gets user data
+        //   _getUser.add(messages.payload['phx_reply']);
+        // }
+      }
+    });
   }
 }

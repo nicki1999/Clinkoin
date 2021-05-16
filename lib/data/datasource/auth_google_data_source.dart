@@ -12,6 +12,8 @@ class AuthGoogleDataSource {
         scopes: ['email', 'profile'],
       ),
     );
+    print('access token is :${result.accessToken}');
+    print('refresh token is :${result.refreshToken}');
     return result;
 
     // print('first ${result.authorizationAdditionalParameters}');

@@ -367,73 +367,42 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
             return Column(
               children: [
                 Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height < 580 ? 40 : 64,
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height < 580 ? 40 : 64,
+                  ),
+                  height: MediaQuery.of(context).size.height < 580
+                      ? (MediaQuery.of(context).size.height * 1) - 126
+                      : (MediaQuery.of(context).size.height * 1) - 146,
+                  child: new Swiper(
+                    onIndexChanged: (value) {
+                      setState(() {
+                        value == 2 ? _changeText = true : _changeText = false;
+
+                        _swipe = false;
+                      });
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return index == 0
+                          ? _forecastBitcoin
+                          : index == 1
+                              ? _winsatoshiRiskFree
+                              : index == 2
+                                  ? _wallet
+                                  : null;
+                    },
+                    itemCount: 3,
+                    viewportFraction: .8,
+                    scale: 1,
+                    loop: false,
+                    control: new SwiperControl(
+                      //lastSlide: _changeText,
+                      goesNext: _swipe,
+                      iconNext: null,
+                      iconPrevious: null,
                     ),
-                    height: MediaQuery.of(context).size.height < 580
-                        ? (MediaQuery.of(context).size.height * 1) - 126
-                        : (MediaQuery.of(context).size.height * 1) - 146,
-                    child: new Swiper(
-                      onIndexChanged: (value) {
-                        setState(() {
-                          value == 2 ? _changeText = true : _changeText = false;
-
-                          _swipe = false;
-                        });
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return index == 0
-                            ? _forecastBitcoin
-                            : index == 1
-                                ? _winsatoshiRiskFree
-                                : index == 2
-                                    ? _wallet
-                                    : null;
-                      },
-                      itemCount: 3,
-                      viewportFraction: .8,
-                      scale: 1,
-                      loop: false,
-                      control: new SwiperControl(
-                        //lastSlide: _changeText,
-                        goesNext: _swipe,
-                        iconNext: null,
-                        iconPrevious: null,
-                      ),
-                      duration: 500,
-                    )
-                    // Swiper(
-                    //   onIndexChanged: (value) {
-                    //     setState(() {
-                    //       value == 2 ? _changeText = true : _changeText = false;
-
-                    //       _swipe = false;
-                    //     });
-                    //   },
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     // print(_swipe);
-
-                    //     return index == 0
-                    //         ? _forecastBitcoin
-                    //         : index == 1
-                    //             ? _winsatoshiRiskFree
-                    //             : index == 2
-                    //                 ? _wallet
-                    //                 : null;
-                    //   },
-                    //   loop: false,
-                    //   itemCount: 3,
-                    //   control: new SwiperControl(
-                    //     //lastSlide: _changeText,
-                    //     goesNext: _swipe,
-                    //     iconNext: null,
-                    //     iconPrevious: null,
-                    //   ),
-                    //   duration: 500,
-                    //   scale: 0.7,
-                    //   viewportFraction: 0.8,
-                    // ),
-                    ),
+                    duration: 500,
+                  ),
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -452,19 +421,6 @@ class _ForcastBitcoinState extends State<ForcastBitcoin> {
           },
         ),
       ),
-      //     StreamBuilder(
-      //   stream: message,
-      //   builder: (context, snapshot) {
-      //     return snapshot.hasData
-      //         ? Center(
-      //             child: Text(
-      //               '$snapshot',
-      //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-      //             ),
-      //           )
-      //         : Center(child: Text('no data'));
-      //   },
-      // ),
     );
   }
 }
