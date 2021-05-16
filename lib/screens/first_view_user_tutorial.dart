@@ -1,20 +1,15 @@
-import 'dart:async';
+import 'dart:math';
 
-import 'package:clinkoin/data/datasource/auth_google_data_source.dart';
 import 'package:clinkoin/data/providers/auth_provider.dart';
 import 'package:clinkoin/main.dart';
-import 'package:clinkoin/models/btc_price_channel/momentary_event_model.dart';
 import 'package:clinkoin/models/feature.dart';
-import 'package:clinkoin/screens/first_time_user_tutorial_predicted.dart';
-import 'package:clinkoin/socket/price_btc_channel.dart';
+import 'package:clinkoin/socket/channels.dart';
 import 'package:clinkoin/widgets/draw_graph.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:phoenix_socket/phoenix_socket.dart';
 import 'package:provider/provider.dart';
-
 import 'first_time_home_page_wait_for_overlay.dart';
 
 class FirstViewUserTutorial extends StatefulWidget {
@@ -41,36 +36,29 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
   var duration;
 
   @override
-  void didChangeDependencies() async {
-    // BTCChannel btcChannel = BTCChannel(
-    //     token: Provider.of<AuthProvider>(context, listen: false).token);
-    // await btcChannel.momentaryPrice();
-    super.didChangeDependencies();
-  }
-
-  String _token;
-  @override
   void initState() {
-    // _token = Provider.of<AuthProvider>(context, listen: false).token;
     duration = new Duration(hours: hours, seconds: seconds, minutes: minutes);
+    Provider.of<AuthProvider>(context, listen: false).getUserQuestion();
     super.initState();
   }
 
   double _opacity = 1.0;
   double _fadeIn = 0.0;
-  bool _animateScreen = false;
   int _fadeTimer = 400;
+  //qadre nesbat?
+  var d;
 
-  final List<Feature> features = [
-    Feature(
-      color: LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: [Colors.purple, Colors.blue],
-      ),
-      data: [0.2, 0.8, 0.4, 0.7, 0.6],
-    ),
-  ];
+  // final List<Feature> features = [
+  //   Feature(
+
+  //     color: LinearGradient(
+  //       begin: Alignment.centerLeft,
+  //       end: Alignment.centerRight,
+  //       colors: [Colors.purple, Colors.blue],
+  //     ),
+  //     data: [0.2, 0.8, 0.4, 0.7, 0.6, .4],
+  //   ),
+  // ];
   CountdownFormatted timer;
 
   @override
@@ -154,13 +142,13 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
                         children: [
                           Container(
                               margin: EdgeInsets.symmetric(horizontal: 16),
-                              child: Consumer<BTCChannel>(
-                                builder: (context, btc, _) {
+                              child: Consumer<AuthProvider>(
+                                builder: (context, auth, _) {
                                   return FutureBuilder(
-                                    future: btc.momentaryPrice(),
+                                    future: auth.priceChannel(),
                                     builder: (context, snapshot) {
                                       return StreamBuilder(
-                                          stream: btc.onEvents,
+                                          stream: auth.onEventsMomentaryPrice,
                                           builder: (context, snapshot) =>
                                               snapshot.hasData
                                                   ? Text(
@@ -224,21 +212,78 @@ class _FirstViewUserTutorialState extends State<FirstViewUserTutorial> {
               FittedBox(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 17),
-                  child: LineGraph(
-                    features: features,
-                    size: Size(
-                        400,
-                        MediaQuery.of(context).size.height > 800
-                            ? MediaQuery.of(context).size.height * .35
-                            : MediaQuery.of(context).size.height * .31),
-                    labelX: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-                    labelY: [
-                      '\$24,000',
-                      '60%',
-                      '100%',
-                    ],
-                    showDescription: false,
-                    graphColor: Color.fromRGBO(210, 210, 210, 1),
+                  child: Consumer<AuthProvider>(
+                    builder: (context, auth, _) {
+                      return StreamBuilder(
+                          stream: auth.onEventsHourlyPrice,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List cleanData = [];
+                              //a1 or the smallest
+                              var minimum = snapshot.data.reduce(
+                                  (current, next) =>
+                                      current < next ? current : next);
+                              var maximum = snapshot.data.reduce(
+                                  (current, next) =>
+                                      current > next ? current : next);
+                              //mikham 10 ta 10 ta biaram too scale e 0-1
+                              d = (maximum - minimum) / 99999;
+
+                              snapshot.data.forEach((element) {
+                                var j = 0.00001;
+                                var i;
+
+                                for (i = 0; i <= 100000; i++) {
+                                  if (minimum + (i * d) <= element &&
+                                      element <= d * (i + 1) + minimum) {
+                                    cleanData.add(j);
+                                  }
+                                  j += 0.00001;
+                                }
+                              });
+                              return LineGraph(
+                                features: [
+                                  Feature(
+                                      color: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Colors.purple, Colors.blue],
+                                      ),
+                                      data: [0, 1]
+                                      //cleanData
+                                      //cleanData
+                                      // snapshot.data[]
+
+                                      ),
+                                ],
+                                size: Size(
+                                    400,
+                                    MediaQuery.of(context).size.height > 800
+                                        ? MediaQuery.of(context).size.height *
+                                            .35
+                                        : MediaQuery.of(context).size.height *
+                                            .31),
+                                labelX: [
+                                  'Day 1',
+                                  'Day 2',
+                                  'Day 3',
+                                  'Day 4',
+                                  'Day 5'
+                                ],
+                                labelY: [
+                                  '\$24,000',
+                                  '60%',
+                                  '100%',
+                                ],
+                                showDescription: false,
+                                graphColor: Color.fromRGBO(210, 210, 210, 1),
+                              );
+                              // //a1 or the smallest
+                            } else {
+                              return Text('no data available');
+                            }
+                          });
+                    },
                   ),
                 ),
               ),

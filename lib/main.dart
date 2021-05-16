@@ -11,11 +11,9 @@ import 'package:clinkoin/screens/home_page.dart';
 import 'package:clinkoin/screens/predicted_undo.dart';
 import 'package:clinkoin/screens/sign_up.dart';
 import 'package:clinkoin/screens/wallet_not_login.dart';
-import 'package:clinkoin/socket/price_btc_channel.dart';
-import 'package:device_info/device_info.dart';
+import 'package:clinkoin/socket/channels.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:random_string/random_string.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,11 +59,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(
           value: AuthProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthProvider, BTCChannel>(
-            create: (context) => null,
-            update: (context, auth, btc) {
-              return BTCChannel(token: auth.token);
-            }),
       ],
       child: Consumer<AuthProvider>(
         builder: (context, auth, _) {
@@ -88,7 +81,23 @@ class _MyAppState extends State<MyApp> {
                           child: Text('is loading...'),
                         ),
                       )
-                    : FirstViewUserTutorial();
+                    :
+                    // ForcastBitcoin();
+                    // FirstViewUserTutorial();
+                    StreamBuilder(
+                        builder: (context, snapshot) {
+                          return snapshot.hasData
+                              ? snapshot.data.toString() == '0'
+                                  ? ForcastBitcoin()
+                                  : FirstTimeHomePageWaitForOverlay()
+                              : Scaffold(
+                                  body: Center(
+                                    child: Text('is loading...'),
+                                  ),
+                                );
+                        },
+                        stream: auth.onEventsGetUser,
+                      );
               },
             ),
             routes: {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Feature {
   String title;
   LinearGradient color;
-  List<double> data;
+  List<dynamic> data;
 
   Feature({
     this.title = "",

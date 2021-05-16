@@ -28,16 +28,21 @@ class LineGraphPainter extends CustomPainter {
       }
     }
 
-    _offsetX *= 6.1;
+    _offsetX *= 7;
     _offsetX += 2 * size.width / 20;
     Size margin = Size(_offsetX, size.height / 8);
+    Size margin2 = Size(16, 0);
     Size graph = Size(
-      size.width - 2 * margin.width,
+      size.width - 1 * margin.width,
       size.height - 2 * margin.height,
     );
     Size cell = Size(
       graph.width / (labelX.length - 1),
       graph.height * 1.58 / labelY.length,
+    );
+    Size linear = Size(
+      graph.width / 60,
+      graph.height,
     );
 
     for (int i = 0; i < features.length; i++) {
@@ -45,8 +50,8 @@ class LineGraphPainter extends CustomPainter {
         features[i],
         canvas,
         graph,
-        cell,
-        margin,
+        linear,
+        margin2,
       );
     }
     drawAxis(canvas, graph, margin);
@@ -64,22 +69,20 @@ class LineGraphPainter extends CustomPainter {
       ..color = graphColor
       ..strokeWidth = 1;
 
-    Offset xEnd =
-        Offset(graph.width + 1.2 * margin.width, graph.height + margin.height);
+    Offset xEnd = Offset(graph.width * 1.08, graph.height + margin.height);
     Offset yStart = Offset(margin.width, 0);
 
     //X-Axis & Y-Axis
+    //bottom line
     canvas.drawLine(Offset(margin.width - 70, graph.height + margin.height),
         xEnd, linePaint);
     canvas.drawLine(
         Offset(margin.width - 70, (graph.height + margin.height) / 1.85),
-        Offset(graph.width + 1.2 * margin.width,
-            (graph.height + margin.height) / 1.85),
+        Offset(graph.width * 1.08, (graph.height + margin.height) / 1.85),
         linePaint);
     canvas.drawLine(
-        Offset(margin.width - 70, (graph.height + margin.height) / 15),
-        Offset(graph.width + 1.2 * margin.width,
-            (graph.height + margin.height) / 15),
+        Offset(margin.width - 70, (graph.height + margin.height) / 10),
+        Offset(graph.width * 1.08, (graph.height + margin.height) / 10),
         linePaint);
 
     //Arrow heads
@@ -130,7 +133,7 @@ class LineGraphPainter extends CustomPainter {
       tp.paint(
         canvas,
         new Offset(
-          margin.width / 1.1 + cell.width / .8 * i - 62,
+          margin.width / 1.1 + cell.width / 1.1 * i - 62,
           margin.height + graph.height + 10,
         ),
       );
@@ -157,17 +160,17 @@ class LineGraphPainter extends CustomPainter {
 
     Path path = Path();
     Path linePath = Path();
-    path.moveTo(margin.width - 70, graph.height + margin.height);
+    path.moveTo(margin.width, graph.height + margin.height);
     path.lineTo(
-      margin.width - 70,
+      margin.width,
       margin.height + graph.height - feature.data[0] * graph.height,
     );
     linePath.moveTo(
-      margin.width - 70,
-      margin.height + graph.height - feature.data[0] * graph.height,
+      margin.width,
+      margin.height + graph.height - feature.data[0] * graph.height + 23,
     );
     int i = 0;
-    for (i = 1; i < labelX.length && i < feature.data.length; i++) {
+    for (i = 1; i < feature.data.length; i++) {
       if (feature.data[i] > 1) {
         feature.data[i] = 1;
       }
@@ -175,18 +178,18 @@ class LineGraphPainter extends CustomPainter {
         feature.data[i] = 0;
       }
       path.lineTo(
-        margin.width + i * cell.width + 20,
-        margin.height + graph.height - feature.data[i] * graph.height - 44,
+        margin.width + i * cell.width - 5,
+        margin.height + graph.height - feature.data[i] * graph.height + 16,
       );
       linePath.lineTo(
-        margin.width + i * cell.width + 20,
-        margin.height + graph.height - feature.data[i] * graph.height - 44,
+        margin.width + i * cell.width - 5,
+        margin.height + graph.height - feature.data[i] * graph.height + 16,
       );
     }
     // path.lineTo(
     //     margin.width + (feature.data.length - 1) * cell.width, margin.height);
     path.lineTo(
-      margin.width + cell.width * (i - 1) + 20,
+      margin.width + cell.width * (i - 1),
       margin.height + graph.height,
     );
     canvas.drawPath(path, fillPaint);
