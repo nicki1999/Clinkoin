@@ -222,16 +222,21 @@ class AuthProvider with ChangeNotifier {
     _socket.openStream.listen((event) async {
       _userChannel = _socket.addChannel(topic: 'user:$userId');
       _userChannel.join();
-      await for (var messages in _userChannel.messages) {
-        final event = messages.event;
-        if (event == _getUserEvent) {
-          //gets user data
-          _getUser.add(
-              messages.payload['response']['data']['all_predictions_count']);
-        }
-      }
-      _socket.close();
-      _socket.dispose();
+      _userChannel.messages.listen((event) {
+        print(event);
+        _getUser.add(event.payload);
+      });
+      // await for (var messages in _userChannel.messages) {
+      //   final event = messages.event;
+      //   if (event == _getUserEvent) {
+      //     //gets user data
+      //     _getUser.add(
+      //         messages.payload['response']['data']['all_predictions_count']);
+      //   }
+      //   if (messages.event == _getQuestion) {
+      //     print('messages are $messages');
+      //   }
+      // }
     });
   }
 
@@ -268,15 +273,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future getUserQuestion() async {
-    socketConnection();
-    _socket.openStream.listen((event) async {
-      _userChannel.push('user:get:question', {});
-      await for (var messages in _userChannel.messages) {
-        if (messages.event == _getQuestion) {
-          print('messages are $messages');
-        }
-      }
-    });
+    _userChannel.push('user:get:question', {});
   }
 
   Future userChannel() async {
